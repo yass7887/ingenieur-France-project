@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IngénieurFrance — Find Your Path</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0a0f2e; --ink:#111827; --cream:#f5f0e8; --gold:#c9a84c; --gold-light:#e8c97a;
+  --red:#c1392b; --blue:#1a3a6b; --green:#2d6a4f; --gray:#6b7280;
+  --light:#f9f8f5; --white:#ffffff; --border:rgba(201,168,76,0.3);
+  --card-bg:#ffffff; --section-bg:#f9f8f5; --text-muted:#6b7280;
+}
+body.dark {
+  --cream:#0d1117; --light:#0d1117; --ink:#e6edf3; --gray:#8b949e;
+  --white:#161b22; --card-bg:#161b22; --section-bg:#0d1117; --text-muted:#8b949e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;transition:background .3s,color .3s;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:.8rem 2rem;background:rgba(10,15,46,0.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(201,168,76,.12);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.15rem;color:#fff;text-decoration:none;}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:1.6rem;align-items:center;}
+.nav-links a{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-right{display:flex;gap:.8rem;align-items:center;}
+.dark-toggle{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:.3rem .75rem;cursor:pointer;font-size:.8rem;color:rgba(255,255,255,.5);transition:all .2s;display:flex;align-items:center;gap:.35rem;}
+.dark-toggle:hover{border-color:var(--gold);color:var(--gold);}
+.nav-badge{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.15em;background:rgba(201,168,76,.15);color:var(--gold);border-radius:3px;padding:.15rem .4rem;text-transform:uppercase;margin-left:.3rem;}
+.nav-quiz-link{color:rgba(255,255,255,.65)!important;border:1px solid rgba(201,168,76,.25);border-radius:4px;padding:.3rem .7rem!important;}
+.nav-quiz-link:hover,.nav-quiz-link.active{background:rgba(201,168,76,.12)!important;border-color:var(--gold)!important;color:var(--gold)!important;}
+.nav-links a.active{color:var(--gold);}
+.nav-cta-btn{background:var(--gold);color:var(--navy);border:none;padding:.4rem 1.1rem;border-radius:3px;font-family:'DM Mono',monospace;font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-weight:600;text-decoration:none;transition:all .2s;}
+.nav-cta-btn:hover{background:var(--gold-light);}
+#scrollProgress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(to right,var(--gold),var(--gold-light));z-index:300;transition:width .1s linear;width:0%;}
+
+/* HERO */
+#hero{min-height:100vh;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:2rem;padding-top:5rem;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.06) 1px,transparent 1px);background-size:60px 60px;}
+.hero-glow{position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.flag-bar{display:flex;gap:6px;margin-bottom:2rem;animation:fadeDown .8s ease both;}
+.flag-bar span{display:block;width:36px;height:5px;border-radius:3px;}
+.flag-bar .bleu{background:#002395;}.flag-bar .blanc{background:#ededed;}.flag-bar .rouge{background:#ED2939;}
+.hero-label{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;animation:fadeDown .9s ease .1s both;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,6.5rem);font-weight:900;color:#fff;text-align:center;line-height:1.05;animation:fadeDown 1s ease .2s both;}
+.hero-title em{font-style:italic;color:var(--gold);}
+.hero-sub{max-width:520px;text-align:center;color:rgba(255,255,255,.52);font-size:1.05rem;line-height:1.7;margin-top:1.5rem;animation:fadeDown 1s ease .35s both;}
+.hero-cta{margin-top:3rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeDown 1s ease .5s both;}
+.btn-primary{background:var(--gold);color:var(--navy);border:none;padding:.9rem 2.2rem;font-family:'DM Mono',monospace;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:3px;font-weight:500;transition:all .25s;text-decoration:none;display:inline-block;}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,.35);}
+.btn-outline{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);padding:.9rem 2.2rem;font-family:'DM Mono',monospace;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .25s;text-decoration:none;display:inline-block;}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;animation:fadeIn 2s ease 1.2s both;}
+.scroll-hint::after{content:'';display:block;width:1px;height:50px;background:linear-gradient(to bottom,rgba(201,168,76,.6),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+
+/* STATS */
+.stats-strip{background:var(--blue);display:flex;justify-content:center;flex-wrap:wrap;}
+.stat-item{flex:1;min-width:160px;max-width:280px;padding:2.5rem 2rem;text-align:center;border-right:1px solid rgba(255,255,255,.08);}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:var(--gold);display:block;}
+.stat-label{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:rgba(255,255,255,.45);text-transform:uppercase;margin-top:.3rem;}
+
+/* APP STATS */
+.appstat-card{background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:2rem 1.6rem;text-align:center;transition:box-shadow .2s;}
+body.dark .appstat-card{border-color:rgba(255,255,255,.06);}
+.appstat-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.07);}
+.appstat-icon{font-size:1.8rem;margin-bottom:.8rem;}
+.appstat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--navy);margin-bottom:.3rem;}
+body.dark .appstat-num{color:var(--ink);}
+.appstat-label{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:.5rem;}
+.appstat-note{font-size:.75rem;color:var(--gray);opacity:.7;line-height:1.5;}
+
+/* ABOUT */
+#about{max-width:1100px;margin:0 auto;padding:7rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.section-tag{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;line-height:1.2;color:var(--navy);margin-bottom:1.5rem;}
+body.dark .section-title{color:var(--ink);}
+.section-body{font-size:1rem;line-height:1.8;color:var(--gray);}
+.about-visual{background:var(--navy);border-radius:4px;padding:3rem 2.5rem;position:relative;overflow:hidden;}
+.about-visual::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(201,168,76,.2),transparent 70%);}
+.about-item{display:flex;align-items:flex-start;gap:1.2rem;margin-bottom:2rem;}
+.about-item:last-child{margin-bottom:0;}
+.about-icon{width:40px;height:40px;background:rgba(201,168,76,.15);border:1px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.about-item h4{font-family:'Playfair Display',serif;font-size:1rem;color:#fff;margin-bottom:.3rem;}
+.about-item p{font-size:.85rem;color:rgba(255,255,255,.42);line-height:1.6;}
+
+/* QUIZ */
+#quiz{background:var(--navy);padding:7rem 2rem;}
+.quiz-wrap{max-width:760px;margin:0 auto;}
+.quiz-header{text-align:center;margin-bottom:4rem;}
+.quiz-header .section-title{color:#fff;}
+.quiz-header .section-body{color:rgba(255,255,255,.42);max-width:480px;margin:0 auto;}
+.steps{display:flex;justify-content:center;align-items:center;gap:0;margin-bottom:3.5rem;}
+.step-dot{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.3);transition:all .3s;}
+.step-dot.active{background:var(--gold);border-color:var(--gold);color:var(--navy);font-weight:700;}
+.step-dot.done{background:rgba(201,168,76,.2);border-color:var(--gold);color:var(--gold);}
+.step-line{width:40px;height:1px;background:rgba(255,255,255,.1);}
+.quiz-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:3rem;}
+.q-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem;}
+.q-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:2rem;line-height:1.3;}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:2.5rem;}
+.option-btn{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:1rem 1.2rem;cursor:pointer;text-align:left;transition:all .2s;display:flex;align-items:center;gap:.8rem;}
+.option-btn:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
+.option-btn.selected{border-color:var(--gold);background:rgba(201,168,76,.15);}
+.option-icon{font-size:1.3rem;}
+.option-text{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.4;}
+.option-btn.selected .option-text{color:#fff;}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;}
+.btn-back{background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.4);padding:.7rem 1.5rem;font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.1em;cursor:pointer;border-radius:3px;transition:all .2s;}
+.btn-back:hover{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.3);}
+.btn-next{background:var(--gold);border:none;color:var(--navy);padding:.8rem 2rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:3px;font-weight:500;transition:all .25s;}
+.btn-next:hover{background:var(--gold-light);transform:translateY(-1px);}
+.btn-next:disabled{opacity:.35;cursor:not-allowed;transform:none;}
+
+/* RESULTS */
+#results{display:none;padding:7rem 2rem;background:var(--section-bg);}
+.results-wrap{max-width:1050px;margin:0 auto;}
+.results-header{text-align:center;margin-bottom:5rem;}
+.profile-badge{display:inline-flex;align-items:center;gap:.6rem;background:var(--navy);color:var(--gold);border-radius:100px;padding:.5rem 1.2rem;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.5rem;}
+.path-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem;margin-bottom:5rem;}
+.path-card{background:var(--card-bg);border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,.06);transition:all .25s;cursor:pointer;}
+body.dark .path-card{border-color:rgba(255,255,255,.06);}
+.path-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.07);}
+.card-top{height:8px;}
+.card-body{padding:2rem;}
+.card-match{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--gray);text-transform:uppercase;margin-bottom:.4rem;}
+.card-title{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-bottom:.6rem;}
+body.dark .card-title{color:var(--ink);}
+.card-desc{font-size:.87rem;color:var(--gray);line-height:1.65;margin-bottom:1.2rem;}
+.card-tags{display:flex;flex-wrap:wrap;gap:.4rem;}
+.tag{background:rgba(26,58,107,.07);color:var(--blue);border-radius:3px;padding:.25rem .6rem;font-size:.72rem;font-family:'DM Mono',monospace;cursor:default;user-select:none;}
+body.dark .tag{background:rgba(201,168,76,.1);color:var(--gold);}
+
+/* COMPARATOR */
+#comparator{padding:7rem 2rem;background:var(--cream);}
+body.dark #comparator{background:var(--navy);}
+.comp-wrap{max-width:1100px;margin:0 auto;}
+.comp-header{text-align:center;margin-bottom:3rem;}
+.school-selector{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:2.5rem;}
+.school-chip{background:var(--card-bg);border:1px solid rgba(0,0,0,.1);border-radius:100px;padding:.45rem 1rem;font-size:.8rem;font-family:'DM Mono',monospace;cursor:pointer;transition:all .2s;color:var(--ink);}
+body.dark .school-chip{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:var(--ink);}
+.school-chip.active{background:var(--gold);border-color:var(--gold);color:var(--navy);}
+.comp-table-wrap{overflow-x:auto;}
+.comp-table{width:100%;border-collapse:collapse;}
+.comp-table th{background:var(--navy);color:rgba(255,255,255,.7);font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;padding:1rem 1.2rem;text-align:left;white-space:nowrap;}
+.comp-table td{padding:.9rem 1.2rem;border-bottom:1px solid rgba(0,0,0,.05);font-size:.88rem;color:var(--ink);background:var(--card-bg);}
+body.dark .comp-table td{border-color:rgba(255,255,255,.04);}
+.comp-table tr:hover td{background:rgba(201,168,76,.05);}
+.score-bar{display:flex;align-items:center;gap:.6rem;}
+.bar-track{flex:1;height:6px;background:rgba(0,0,0,.08);border-radius:3px;max-width:80px;}
+body.dark .bar-track{background:rgba(255,255,255,.08);}
+.bar-fill{height:100%;border-radius:3px;background:var(--gold);}
+.badge-type{display:inline-block;background:rgba(193,57,43,.08);color:var(--red);border-radius:3px;padding:.2rem .5rem;font-size:.68rem;font-family:'DM Mono',monospace;}
+
+/* SALARY CALC */
+#salary{padding:7rem 2rem;background:var(--navy);}
+.sal-wrap{max-width:800px;margin:0 auto;text-align:center;}
+.sal-wrap .section-title{color:#fff;}
+.sal-wrap .section-body{color:rgba(255,255,255,.42);}
+.sal-controls{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:3rem 0;}
+.sal-group label{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.8rem;}
+.sal-group select{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:.8rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;cursor:pointer;appearance:none;}
+.sal-group select option{background:#1a3a6b;color:#fff;}
+.range-wrap{display:flex;align-items:center;gap:1rem;}
+.sal-range{flex:1;appearance:none;height:4px;background:rgba(255,255,255,.15);border-radius:2px;outline:none;cursor:pointer;}
+.sal-range::-webkit-slider-thumb{appearance:none;width:18px;height:18px;background:var(--gold);border-radius:50%;cursor:pointer;}
+.range-val{font-family:'DM Mono',monospace;font-size:.85rem;color:var(--gold);min-width:30px;text-align:right;}
+.sal-result{background:rgba(201,168,76,.1);border:1px solid var(--border);border-radius:10px;padding:2.5rem;margin-top:1rem;}
+.sal-amount{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;color:var(--gold);}
+.sal-desc{color:rgba(255,255,255,.45);font-size:.9rem;margin-top:.5rem;}
+.sal-range-text{color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;font-size:.72rem;margin-top:.4rem;letter-spacing:.1em;}
+
+/* CONCOURS CALENDAR */
+#calendar-section{padding:7rem 2rem;background:var(--section-bg);}
+.cal-wrap{max-width:900px;margin:0 auto;}
+.cal-header{margin-bottom:3rem;}
+.events-list{display:flex;flex-direction:column;gap:1rem;}
+.event-item{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:1.5rem;background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:1.5rem;transition:all .2s;}
+body.dark .event-item{border-color:rgba(255,255,255,.06);}
+.event-item:hover{border-color:var(--gold);}
+.event-date-box{text-align:center;}
+.event-month{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);}
+.event-day{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--navy);line-height:1;}
+body.dark .event-day{color:var(--ink);}
+.event-year{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--gray);}
+.event-info h4{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.3rem;}
+body.dark .event-info h4{color:var(--ink);}
+.event-info p{font-size:.82rem;color:var(--gray);}
+.countdown-badge{font-family:'DM Mono',monospace;font-size:.72rem;background:rgba(193,57,43,.1);color:var(--red);border-radius:4px;padding:.35rem .7rem;white-space:nowrap;text-align:center;}
+.countdown-badge.soon{background:rgba(201,168,76,.15);color:var(--gold);}
+.countdown-badge.past{background:rgba(107,114,128,.1);color:var(--gray);}
+
+/* CHECKLIST */
+#checklist{padding:7rem 2rem;background:var(--navy);}
+.check-wrap{max-width:750px;margin:0 auto;}
+.check-header{text-align:center;margin-bottom:3rem;}
+.check-header .section-title{color:#fff;}
+.progress-bar-wrap{background:rgba(255,255,255,.08);border-radius:100px;height:8px;margin-bottom:.6rem;}
+.progress-bar-fill{height:100%;border-radius:100px;background:linear-gradient(to right,var(--gold),var(--gold-light));transition:width .4s ease;}
+.progress-text{font-family:'DM Mono',monospace;font-size:.68rem;color:rgba(255,255,255,.35);letter-spacing:.15em;margin-bottom:2.5rem;}
+.check-categories{display:flex;flex-direction:column;gap:2rem;}
+.check-cat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden;}
+.check-cat-header{padding:1.2rem 1.5rem;background:rgba(255,255,255,.03);display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.check-cat-icon{font-size:1.1rem;}
+.check-cat-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#fff;}
+.check-cat-count{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--gold);margin-left:auto;}
+.check-items{padding:.5rem 1.5rem 1.2rem;}
+.check-item{display:flex;align-items:center;gap:.9rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.check-item:last-child{border-bottom:none;}
+.check-box{width:20px;height:20px;border:1.5px solid rgba(255,255,255,.2);border-radius:4px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent;}
+.check-box.checked{background:var(--gold);border-color:var(--gold);}
+.check-box.checked::after{content:'✓';font-size:.7rem;color:var(--navy);font-weight:700;}
+.check-label{font-size:.88rem;color:rgba(255,255,255,.6);transition:all .2s;}
+.check-item.done .check-label{text-decoration:line-through;color:rgba(255,255,255,.25);}
+
+/* TESTIMONIALS */
+#testimonials{padding:7rem 2rem;background:var(--section-bg);}
+.testi-wrap{max-width:1100px;margin:0 auto;}
+.testi-header{text-align:center;margin-bottom:4rem;}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;}
+.testi-card{background:var(--card-bg);border-radius:10px;padding:2rem;border:1px solid rgba(0,0,0,.06);position:relative;}
+body.dark .testi-card{border-color:rgba(255,255,255,.06);}
+.testi-quote{font-size:3rem;color:var(--gold);opacity:.3;font-family:'Playfair Display',serif;line-height:1;margin-bottom:.5rem;}
+.testi-text{font-size:.92rem;line-height:1.75;color:var(--gray);margin-bottom:1.5rem;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:.8rem;}
+.testi-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;font-family:'Playfair Display',serif;color:#fff;flex-shrink:0;}
+.testi-name{font-weight:600;font-size:.9rem;color:var(--navy);}
+body.dark .testi-name{color:var(--ink);}
+.testi-role{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--gray);letter-spacing:.08em;}
+.testi-school-tag{display:inline-block;margin-top:.6rem;background:rgba(201,168,76,.1);color:var(--gold);border-radius:3px;padding:.2rem .55rem;font-family:'DM Mono',monospace;font-size:.65rem;}
+
+/* REVIEW FORM */
+.review-form-wrap{background:var(--navy);border-radius:12px;padding:2.5rem;margin-bottom:3rem;border:1px solid rgba(201,168,76,.15);}
+.review-form-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:.3rem;}
+.review-form-sub{font-size:.85rem;color:rgba(255,255,255,.4);margin-bottom:1.8rem;}
+.review-fields{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.5rem;}
+.review-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.review-field{display:flex;flex-direction:column;gap:.4rem;}
+.review-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.review-input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.7rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+.review-input::placeholder{color:rgba(255,255,255,.2);}
+.review-input:focus{border-color:var(--gold);}
+.review-input option{background:var(--navy);color:#fff;}
+.review-textarea{min-height:100px;resize:vertical;line-height:1.6;}
+.star-row{display:flex;gap:.3rem;margin-top:.3rem;}
+.star{font-size:1.6rem;color:rgba(255,255,255,.15);cursor:pointer;transition:color .15s;line-height:1;}
+.star.active{color:var(--gold);}
+.review-submit-btn{background:var(--gold);color:var(--navy);border:none;padding:.75rem 2rem;border-radius:4px;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all .2s;}
+.review-submit-btn:hover{background:var(--gold-light);transform:translateY(-1px);}
+
+/* FILTER BAR */
+.testi-filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.testi-filter{background:var(--card-bg);border:1px solid rgba(0,0,0,.08);border-radius:100px;padding:.35rem .9rem;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);cursor:pointer;transition:all .2s;}
+body.dark .testi-filter{border-color:rgba(255,255,255,.1);}
+.testi-filter:hover{border-color:var(--gold);color:var(--gold);}
+.testi-filter.active{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:700;}
+
+/* USER REVIEW BADGE */
+.user-review-badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(201,168,76,.1);color:var(--gold);border-radius:3px;padding:.15rem .5rem;font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;margin-top:.4rem;}
+.testi-stars{color:var(--gold);font-size:.9rem;letter-spacing:.05em;margin-top:.3rem;}
+
+/* GLOSSARY */
+#glossary{padding:7rem 2rem;background:var(--navy);}
+.gloss-wrap{max-width:850px;margin:0 auto;}
+.gloss-header{text-align:center;margin-bottom:3rem;}
+.gloss-header .section-title{color:#fff;}
+.gloss-search{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:1rem 1.2rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none;margin-bottom:2rem;transition:border-color .2s;}
+.gloss-search::placeholder{color:rgba(255,255,255,.25);}
+.gloss-search:focus{border-color:var(--gold);}
+.gloss-items{display:flex;flex-direction:column;gap:.8rem;}
+.gloss-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:6px;overflow:hidden;transition:border-color .2s;}
+.gloss-item:hover{border-color:rgba(201,168,76,.3);}
+.gloss-term{padding:1rem 1.3rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.gloss-word{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#fff;}
+.gloss-en{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--gold);letter-spacing:.12em;}
+.gloss-chevron{color:rgba(255,255,255,.3);transition:transform .2s;font-size:.8rem;}
+.gloss-item.open .gloss-chevron{transform:rotate(180deg);}
+.gloss-def{display:none;padding:0 1.3rem 1rem;font-size:.87rem;color:rgba(255,255,255,.42);line-height:1.7;border-top:1px solid rgba(255,255,255,.05);}
+.gloss-item.open .gloss-def{display:block;}
+
+/* FAQ */
+#faq{padding:7rem 2rem;background:var(--section-bg);}
+.faq-wrap{max-width:800px;margin:0 auto;}
+.faq-header{text-align:center;margin-bottom:3rem;}
+.faq-items{display:flex;flex-direction:column;gap:.8rem;}
+.faq-item{background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:8px;overflow:hidden;}
+body.dark .faq-item{border-color:rgba(255,255,255,.06);}
+.faq-q{padding:1.2rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.faq-q span{font-weight:600;font-size:.95rem;color:var(--navy);}
+body.dark .faq-q span{color:var(--ink);}
+.faq-chevron{color:var(--gray);transition:transform .2s;font-size:.85rem;}
+.faq-item.open .faq-chevron{transform:rotate(180deg);color:var(--gold);}
+.faq-a{display:none;padding:0 1.5rem 1.2rem;font-size:.88rem;color:var(--gray);line-height:1.75;}
+.faq-item.open .faq-a{display:block;}
+
+/* RESULTS extras */
+.schools-section{margin-bottom:5rem;}
+.schools-section .section-title{color:var(--navy);margin-bottom:2.5rem;}
+body.dark .schools-section .section-title{color:var(--ink);}
+.schools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+.school-card{background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:6px;padding:1.5rem;transition:all .2s;}
+body.dark .school-card{border-color:rgba(255,255,255,.06);}
+.school-card:hover{border-color:var(--gold);}
+.school-rank{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--gray);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.4rem;}
+.school-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;}
+body.dark .school-name{color:var(--ink);}
+.school-city{font-size:.8rem;color:var(--gray);margin-bottom:.8rem;}
+.school-type{display:inline-block;background:rgba(193,57,43,.08);color:var(--red);border-radius:3px;padding:.2rem .5rem;font-size:.68rem;font-family:'DM Mono',monospace;}
+.roadmap{margin-bottom:5rem;}
+.roadmap .section-title{color:var(--navy);margin-bottom:2.5rem;}
+body.dark .roadmap .section-title{color:var(--ink);}
+.timeline{position:relative;padding-left:2rem;}
+.timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--gold),var(--blue));}
+.tl-item{position:relative;margin-bottom:2rem;}
+.tl-dot{position:absolute;left:-30px;top:4px;width:16px;height:16px;background:var(--card-bg);border:2px solid var(--gold);border-radius:50%;}
+.tl-year{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:.3rem;}
+.tl-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.3rem;}
+body.dark .tl-title{color:var(--ink);}
+.tl-desc{font-size:.87rem;color:var(--gray);line-height:1.6;}
+.tips-section{background:var(--navy);border-radius:10px;padding:3rem;margin-bottom:2rem;}
+.tips-section .section-title{color:#fff;margin-bottom:2rem;}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;}
+.tip-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:1.5rem;}
+.tip-icon{font-size:1.5rem;margin-bottom:.8rem;}
+.tip-title{font-family:'Playfair Display',serif;font-size:1rem;color:#fff;margin-bottom:.5rem;}
+.tip-text{font-size:.82rem;color:rgba(255,255,255,.42);line-height:1.65;}
+.results-actions{display:flex;gap:1rem;justify-content:center;margin-top:3rem;flex-wrap:wrap;}
+.restart-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.9rem 2.5rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .25s;}
+.restart-btn:hover{background:var(--gold);color:var(--navy);}
+.export-btn{background:var(--gold);border:none;color:var(--navy);padding:.9rem 2.5rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;border-radius:3px;font-weight:500;transition:all .25s;}
+.export-btn:hover{background:var(--gold-light);transform:translateY(-1px);}
+
+/* FOOTER */
+footer{background:var(--ink);padding:3rem 2rem;text-align:center;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:.5rem;}
+.footer-logo span{color:var(--gold);}
+.footer-sub{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-bottom:2rem;}
+.footer-note{font-size:.78rem;color:rgba(255,255,255,.2);max-width:400px;margin:0 auto;line-height:1.7;}
+
+/* ANIMATIONS */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:.8}}
+.fade-in-up{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.fade-in-up.visible{opacity:1;transform:translateY(0);}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--navy);color:#fff;border:1px solid var(--gold);border-radius:6px;padding:.9rem 1.5rem;font-family:'DM Mono',monospace;font-size:.78rem;letter-spacing:.08em;z-index:999;transform:translateY(100px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+@media(max-width:768px){
+  #about{grid-template-columns:1fr;gap:3rem;}
+  .options-grid{grid-template-columns:1fr;}
+  .quiz-card{padding:2rem 1.5rem;}
+  .sal-controls{grid-template-columns:1fr;}
+  .event-item{grid-template-columns:80px 1fr;}.countdown-badge{grid-column:1/-1;}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="scrollProgress"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">Ingénieur<span>France</span> <span class="nav-badge">EN</span></a>
+  <div class="nav-links">
+    <a href="#about" data-section="about">About</a>
+    <a href="#appstats" data-section="appstats">Statistics</a>
+    <a href="#quiz" data-section="quiz" class="nav-quiz-link">🎯 Quiz</a>
+    <a href="#comparator" data-section="comparator">Schools</a>
+    <a href="#salary" data-section="salary">Salary</a>
+    <a href="#calendar-section" data-section="calendar-section">Concours</a>
+    <a href="#checklist" data-section="checklist">Checklist</a>
+    <a href="#glossary" data-section="glossary">Glossary</a>
+    <a href="#faq" data-section="faq">FAQ</a>
+    <a href="#reviews" data-section="reviews">Reviews</a>
+  </div>
+  <div class="nav-right">
+    <button class="dark-toggle" onclick="toggleDark()">🌙 <span id="darkLabel">Dark</span></button>
+    <a href="#quiz" class="nav-cta-btn">Take Quiz →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="flag-bar"><span class="bleu"></span><span class="blanc"></span><span class="rouge"></span></div>
+  <p class="hero-label">Engineering in France · Student Orientation Guide</p>
+  <h1 class="hero-title">Become an<br><em>Ingénieur</em><br>in France</h1>
+  <p class="hero-sub">Discover your ideal engineering path. Tell us what drives you — we'll map out the schools, programs, salary, and steps to get there.</p>
+  <div class="hero-cta">
+    <a href="#quiz" class="btn-primary">Start the Quiz →</a>
+    <a href="#about" class="btn-outline">Learn More</a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stat-item"><span class="stat-num">200+</span><span class="stat-label">Grandes Écoles</span></div>
+  <div class="stat-item"><span class="stat-num">95%</span><span class="stat-label">Employment rate</span></div>
+  <div class="stat-item"><span class="stat-num">€42k</span><span class="stat-label">Average starting salary</span></div>
+  <div class="stat-item"><span class="stat-num">5 yrs</span><span class="stat-label">Typical degree length</span></div>
+</div>
+
+<!-- APPLICATION STATISTICS -->
+<section id="appstats" style="background:var(--section-bg);padding:6rem 2rem;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="fade-in-up" style="text-align:center;margin-bottom:4rem;">
+      <p class="section-tag">By the Numbers</p>
+      <h2 class="section-title">Engineering School Applications in France</h2>
+      <p class="section-body" style="max-width:560px;margin:0 auto;">Key figures from the latest <a href="#glossary" onclick="openGlossItem(5);return false;" style="color:var(--gold);text-decoration:underline dotted;text-underline-offset:3px;">Parcoursup</a> and Ministry of Higher Education reports to help you understand the landscape.</p>
+    </div>
+
+    <!-- BIG NUMBERS ROW -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:3rem;">
+      <div class="appstat-card fade-in-up">
+        <div class="appstat-icon">📋</div>
+        <div class="appstat-num">967,000</div>
+        <div class="appstat-label">Total Parcoursup applicants</div>
+        <div class="appstat-note">2024 campaign — all higher education tracks</div>
+      </div>
+      <div class="appstat-card fade-in-up">
+        <div class="appstat-icon">🌍</div>
+        <div class="appstat-num">108,000</div>
+        <div class="appstat-label">International students enrolled</div>
+        <div class="appstat-note">In French engineering schools & universities, 2023–24</div>
+      </div>
+      <div class="appstat-card fade-in-up">
+        <div class="appstat-icon">✅</div>
+        <div class="appstat-num">93%</div>
+        <div class="appstat-label">Applicants received at least one offer</div>
+        <div class="appstat-note">Parcoursup 2024 — across all programmes</div>
+      </div>
+      <div class="appstat-card fade-in-up">
+        <div class="appstat-icon">🥇</div>
+        <div class="appstat-num">72%</div>
+        <div class="appstat-label">Accepted their first-choice offer</div>
+        <div class="appstat-note">Among students who received offers, Parcoursup 2024</div>
+      </div>
+      <div class="appstat-card fade-in-up">
+        <div class="appstat-icon">🎓</div>
+        <div class="appstat-num">175,000</div>
+        <div class="appstat-label">Students enrolled in engineering schools</div>
+        <div class="appstat-note">CTI-accredited schools, academic year 2023–24</div>
+      </div>
+      <div class="appstat-card fade-in-up">
+        <div class="appstat-icon">⏱️</div>
+        <div class="appstat-num">8.7 days</div>
+        <div class="appstat-label">Average response time to an offer</div>
+        <div class="appstat-note">Students had up to 14 days to accept via Parcoursup</div>
+      </div>
+    </div>
+
+    <!-- BREAKDOWN TABLE -->
+    <div class="fade-in-up" style="background:var(--navy);border-radius:10px;overflow:hidden;margin-bottom:3rem;">
+      <div style="padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#fff;">Admission Breakdown by Track</div>
+        <span style="font-family:'DM Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.3);letter-spacing:.1em;">Source: MESRI / Parcoursup 2024</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              ${['Track','Applicants','Offers Made','Acceptance Rate','Avg. Grade Required'].map(h=>`<th style="padding:.9rem 1.5rem;text-align:left;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);border-bottom:1px solid rgba(255,255,255,.06);">${h}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>
+            ${[
+              ['Top Grandes Écoles (X, Mines, Centrale)', '~85,000', '~12,000', '14%', '17+/20 after CPGE'],
+              ['INSA / Polytech (via Parcoursup)', '~210,000', '~38,000', '18%', '14–16/20'],
+              ['IUT / BUT', '~320,000', '~115,000', '36%', '12–14/20'],
+              ['University Licence (L1)', '~380,000', '~290,000', '76%', 'Open — 10+/20'],
+              ['Private engineering schools', '~95,000', '~62,000', '65%', 'Variable — interview based'],
+            ].map((row, i) => `<tr style="${i%2===0?'background:rgba(255,255,255,.02)':''}">
+              ${row.map((cell, ci) => `<td style="padding:.85rem 1.5rem;font-size:.85rem;color:${ci===0?'rgba(255,255,255,.8)':ci===3?'var(--gold)':'rgba(255,255,255,.5)'};border-bottom:1px solid rgba(255,255,255,.04);${ci===0?'font-weight:600;':''}">${cell}</td>`).join('')}
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- INSIGHT CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;" class="fade-in-up">
+      <div style="background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:1.5rem;border-left:3px solid var(--gold);">
+        <div style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;">📈 Trend</div>
+        <p style="font-size:.88rem;color:var(--gray);line-height:1.7;">Applications to engineering schools have grown <strong style="color:var(--navy);">+23%</strong> over the last 5 years, driven by demand for digital and energy profiles.</p>
+      </div>
+      <div style="background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:1.5rem;border-left:3px solid #1a3a6b;">
+        <div style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#1a3a6b;margin-bottom:.6rem;">🌍 International</div>
+        <p style="font-size:.88rem;color:var(--gray);line-height:1.7;">France is the <strong style="color:var(--navy);">3rd most popular destination</strong> in Europe for international engineering students, after the UK and Germany.</p>
+      </div>
+      <div style="background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:1.5rem;border-left:3px solid #2d6a4f;">
+        <div style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#2d6a4f;margin-bottom:.6rem;">💼 Employment</div>
+        <p style="font-size:.88rem;color:var(--gray);line-height:1.7;"><strong style="color:var(--navy);">95% of engineering graduates</strong> find employment within 6 months. The median time to first job is <strong style="color:var(--navy);">47 days</strong>.</p>
+      </div>
+      <div style="background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:1.5rem;border-left:3px solid #c1392b;">
+        <div style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#c1392b;margin-bottom:.6rem;">⚠️ Competition</div>
+        <p style="font-size:.88rem;color:var(--gray);line-height:1.7;">Top <a href="#glossary" onclick="openGlossItem(3);return false;" style="color:var(--gold);text-decoration:underline dotted;text-underline-offset:3px;">Grandes Écoles</a> accept fewer than <strong style="color:var(--navy);">1 in 7 applicants</strong>. <a href="#glossary" onclick="openGlossItem(1);return false;" style="color:var(--gold);text-decoration:underline dotted;text-underline-offset:3px;">CPGE</a> preparation is the standard path.</p>
+      </div>
+    </div>
+
+    <p style="font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gray);text-align:center;margin-top:2rem;letter-spacing:.08em;">Sources: Ministère de l'Enseignement Supérieur (MESRI), Parcoursup 2024 report, CTI 2023 annual report, Campus France statistics.</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="fade-in-up">
+    <p class="section-tag">About French Engineering</p>
+    <h2 class="section-title">A world-class tradition of excellence</h2>
+    <p class="section-body" id="aboutBody">France boasts one of the most rigorous and prestigious engineering education systems in the world. The Grandes Écoles d'Ingénieurs have been shaping technical leaders for over two centuries — from aerospace to AI, energy to civil infrastructure.<br><br>Whether you pursue a Classe Préparatoire path or enter through an INSA or university IUT, French engineering degrees are recognised globally and open doors across every sector.</p>
+  </div>
+  <div class="about-visual fade-in-up">
+    <div class="about-item"><div class="about-icon">🏛️</div><div><h4>Grandes Écoles System</h4><p>Selective institutions offering a 5-year engineering diploma recognised at Master's level.</p></div></div>
+    <div class="about-item"><div class="about-icon">📐</div><div><h4><a href="#glossary" onclick="openGlossItem(1);return false;" style="color:#fff;text-decoration:underline dotted;text-underline-offset:3px;">CPGE</a> — <a href="#glossary" onclick="openGlossItem(1);return false;" style="color:#fff;text-decoration:underline dotted;text-underline-offset:3px;">Prépa</a></h4><p>Two intense years of maths & sciences before competitive entrance exams (<a href="#glossary" onclick="openGlossItem(2);return false;" style="color:var(--gold);text-decoration:underline dotted;text-underline-offset:3px;">concours</a>).</p></div></div>
+    <div class="about-item"><div class="about-icon">🌍</div><div><h4>International Recognition</h4><p><a href="#glossary" onclick="openGlossItem(4);return false;" style="color:var(--gold);text-decoration:underline dotted;text-underline-offset:3px;">CTI</a>-accredited diplomas are the French equivalent of a European engineering Masters.</p></div></div>
+    <div class="about-item"><div class="about-icon">🔬</div><div><h4>Research & Industry</h4><p>Strong ties with labs like CNRS, CEA and companies like Airbus, Total, and Capgemini.</p></div></div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <p class="section-tag">Your Orientation</p>
+      <h2 class="section-title">Find Your Path</h2>
+      <p class="section-body">Answer a few questions about your background, interests and goals — and get personalised school recommendations, strengths & weaknesses, and career guidance.</p>
+    </div>
+    <div class="steps" id="stepIndicator"></div>
+    <div class="quiz-card" id="quizCard"></div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="results-wrap">
+    <div class="results-header fade-in-up">
+      <div class="profile-badge" id="profileBadge">⚙️ Your Profile</div>
+      <h2 class="section-title" id="resultsTitle" style="color:var(--navy)">Your Engineering Path</h2>
+      <p style="color:var(--gray);max-width:560px;margin:0 auto;line-height:1.75;font-size:1rem;" id="resultsSubtitle"></p>
+    </div>
+    <div id="pathCards" class="path-cards fade-in-up"></div>
+    <div class="schools-section fade-in-up">
+      <h3 class="section-title">Recommended Schools</h3>
+      <div id="schoolsGrid" class="schools-grid"></div>
+    </div>
+    <div class="roadmap fade-in-up">
+      <h3 class="section-title">Your Roadmap</h3>
+      <div id="timeline" class="timeline"></div>
+    </div>
+    <div class="tips-section fade-in-up">
+      <h3 class="section-title">Tips & Resources</h3>
+      <div id="tipsGrid" class="tips-grid"></div>
+    </div>
+    <div class="results-actions fade-in-up">
+      <button class="export-btn" onclick="exportPDF()">⬇ Export as PDF</button>
+      <button class="restart-btn" onclick="restartQuiz()">↩ Start Over</button>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATOR -->
+<section id="comparator">
+  <div class="comp-wrap">
+    <div class="comp-header fade-in-up">
+      <p class="section-tag">School Explorer</p>
+      <h2 class="section-title">Compare Schools Side by Side</h2>
+      <p class="section-body" style="text-align:center;max-width:500px;margin:0 auto;">Select up to 4 schools to compare selectivity, salary, specialities and more.</p>
+    </div>
+    <div class="school-selector fade-in-up" id="schoolChips"></div>
+    <div class="comp-table-wrap fade-in-up">
+      <table class="comp-table" id="compTable"></table>
+    </div>
+  </div>
+</section>
+
+<!-- SALARY CALCULATOR -->
+<section id="salary">
+  <div class="sal-wrap">
+    <p class="section-tag">Salary Explorer</p>
+    <h2 class="section-title">Estimate Your Future Salary</h2>
+    <p class="section-body">Adjust the parameters to see realistic salary projections for French engineers.</p>
+    <div class="sal-controls">
+      <div class="sal-group">
+        <label>Field of Engineering</label>
+        <select id="salField" onchange="updateSalary()">
+          <option value="aerospace">Aerospace & Mechanical</option>
+          <option value="digital">Computer Science & AI</option>
+          <option value="energy">Energy & Environment</option>
+          <option value="biomedical">Biomedical & Health</option>
+          <option value="civil">Civil & Infrastructure</option>
+          <option value="finance">Engineering & Finance</option>
+        </select>
+      </div>
+      <div class="sal-group">
+        <label>School Tier</label>
+        <select id="salTier" onchange="updateSalary()">
+          <option value="top">Top Grande École (X, Mines, Centrale…)</option>
+          <option value="mid">Good Grande École (INSA, Grenoble INP…)</option>
+          <option value="uni">University Master (IUT, Polytech…)</option>
+        </select>
+      </div>
+      <div class="sal-group">
+        <label>Years of Experience: <span id="expVal">0</span></label>
+        <div class="range-wrap">
+          <span style="font-size:.8rem;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace">0</span>
+          <input type="range" class="sal-range" id="salExp" min="0" max="20" value="0" oninput="document.getElementById('expVal').textContent=this.value;updateSalary()">
+          <span style="font-size:.8rem;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace">20</span>
+        </div>
+      </div>
+      <div class="sal-group">
+        <label>Location</label>
+        <select id="salLoc" onchange="updateSalary()">
+          <option value="paris">Paris / Île-de-France</option>
+          <option value="regional">Regional city (Lyon, Toulouse…)</option>
+          <option value="abroad">Abroad (Europe / International)</option>
+        </select>
+      </div>
+    </div>
+    <div class="sal-result">
+      <div class="sal-amount" id="salAmount">€42,000</div>
+      <div class="sal-desc" id="salDesc">Estimated gross annual salary</div>
+      <div class="sal-range-text" id="salRangeText">Typical range: €38k – €48k</div>
+    </div>
+    <p id="salQuizNote" style="display:none;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--gold);letter-spacing:.1em;margin-top:.8rem;text-align:center;">✦ Pre-filled from your quiz answers — adjust freely</p>
+  </div>
+</section>
+
+<!-- CONCOURS CALENDAR -->
+<section id="calendar-section">
+  <div class="cal-wrap">
+    <div class="cal-header fade-in-up">
+      <p class="section-tag">Key Dates</p>
+      <h2 class="section-title">Concours Calendar 2025–2026</h2>
+      <p class="section-body">The most important deadlines and entrance exam dates for French engineering schools.</p>
+    </div>
+    <div class="events-list fade-in-up" id="eventsList"></div>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section id="checklist">
+  <div class="check-wrap">
+    <div class="check-header">
+      <p class="section-tag">Preparation</p>
+      <h2 class="section-title">Your Application Checklist</h2>
+      <p style="color:rgba(255,255,255,.42);font-size:.95rem;margin-top:.5rem;">Track everything you need to do to get into a Grande École. Progress is saved automatically.</p>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-text" id="progressText">0 / 0 tasks completed</div>
+    <div class="check-categories" id="checkCategories"></div>
+  </div>
+</section>
+
+<!-- GLOSSARY -->
+<section id="glossary">
+  <div class="gloss-wrap">
+    <div class="gloss-header">
+      <p class="section-tag">Key Terms</p>
+      <h2 class="section-title">French Engineering Glossary</h2>
+      <p style="color:rgba(255,255,255,.42);font-size:.95rem;margin-top:.5rem;text-align:center;">Every important French term explained in English.</p>
+    </div>
+    <input class="gloss-search" id="glossSearch" placeholder="Search a term… (e.g. prépa, concours, CTI)" oninput="filterGlossary()">
+    <div class="gloss-items" id="glossItems"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-wrap">
+    <div class="faq-header fade-in-up">
+      <p class="section-tag">Questions</p>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-items fade-in-up" id="faqItems"></div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="testi-wrap">
+    <div class="testi-header fade-in-up">
+      <p class="section-tag">Student Reviews</p>
+      <h2 class="section-title">Reviews</h2>
+      <p class="section-body" style="text-align:center;max-width:480px;margin:0 auto;">Real reviews from real students. Share your experience — no account needed.</p>
+    </div>
+
+    <!-- REVIEW FORM -->
+    <div class="review-form-wrap fade-in-up" id="reviewFormWrap">
+      <div class="review-form-inner">
+        <div class="review-form-title">✍️ Share Your Experience</div>
+        <p class="review-form-sub">No account needed — just your name and your story.</p>
+        <div class="review-fields">
+          <div class="review-row">
+            <div class="review-field">
+              <label class="review-label">Your Name *</label>
+              <input class="review-input" id="rvName" type="text" placeholder="e.g. Marie L." maxlength="40">
+            </div>
+            <div class="review-field">
+              <label class="review-label">School / Status</label>
+              <input class="review-input" id="rvRole" type="text" placeholder="e.g. 2nd year, INSA Lyon" maxlength="60">
+            </div>
+          </div>
+          <div class="review-row">
+            <div class="review-field">
+              <label class="review-label">Engineering Field</label>
+              <select class="review-input" id="rvField">
+                <option value="">— Select a field —</option>
+                <option value="🚀 Aerospace Eng.">🚀 Aerospace</option>
+                <option value="💻 Digital Eng.">💻 Digital / CS</option>
+                <option value="🌱 Environmental Eng.">🌱 Environmental / Energy</option>
+                <option value="⚕️ Biomedical Eng.">⚕️ Biomedical</option>
+                <option value="🏗️ Civil Eng.">🏗️ Civil Engineering</option>
+                <option value="🔬 Other">🔬 Other</option>
+              </select>
+            </div>
+            <div class="review-field">
+              <label class="review-label">Rating</label>
+              <div class="star-row" id="starRow">
+                <span class="star" data-v="1" onclick="setStar(1)">★</span>
+                <span class="star" data-v="2" onclick="setStar(2)">★</span>
+                <span class="star" data-v="3" onclick="setStar(3)">★</span>
+                <span class="star" data-v="4" onclick="setStar(4)">★</span>
+                <span class="star" data-v="5" onclick="setStar(5)">★</span>
+              </div>
+            </div>
+          </div>
+          <div class="review-field" style="width:100%">
+            <label class="review-label">Your Review * <span id="rvCharCount" style="color:var(--gray);font-weight:400">(0/400)</span></label>
+            <textarea class="review-input review-textarea" id="rvText" placeholder="What was your path like? Any advice for future students?" maxlength="400" oninput="document.getElementById('rvCharCount').textContent='('+this.value.length+'/400)'"></textarea>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+          <button class="review-submit-btn" onclick="submitReview()">Post Review →</button>
+          <p id="rvError" style="color:var(--red);font-size:.82rem;display:none;"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="testi-filter-bar fade-in-up">
+      <button class="testi-filter active" onclick="filterReviews('all',this)">All</button>
+      <button class="testi-filter" onclick="filterReviews('🚀 Aerospace Eng.',this)">🚀 Aerospace</button>
+      <button class="testi-filter" onclick="filterReviews('💻 Digital Eng.',this)">💻 Digital</button>
+      <button class="testi-filter" onclick="filterReviews('🌱 Environmental Eng.',this)">🌱 Environment</button>
+      <button class="testi-filter" onclick="filterReviews('⚕️ Biomedical Eng.',this)">⚕️ Biomedical</button>
+    </div>
+
+    <div id="rvCount" style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--gray);letter-spacing:.12em;margin-bottom:1.5rem;"></div>
+    <div class="testi-grid" id="testiGrid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Ingénieur<span>France</span></div>
+  <div class="footer-sub">Student Orientation · English Project</div>
+  <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+    <a href="#about" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">About</a>
+    <a href="#appstats" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Statistics</a>
+    <a href="#quiz" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Quiz</a>
+    <a href="#comparator" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Schools</a>
+    <a href="#salary" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Salary</a>
+    <a href="#calendar-section" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Concours</a>
+    <a href="#checklist" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Checklist</a>
+    <a href="#glossary" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Glossary</a>
+    <a href="#faq" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">FAQ</a>
+    <a href="#reviews" style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Reviews</a>
+  </div>
+  <p class="footer-note">Created as an English school project to help students explore engineering careers and education in France.</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════
+// DATA
+// ══════════════════════════════════════
+
+const profiles = {
+  aerospace:{badge:"🚀 Aerospace & Mechanical",title:"Aerospace & Mechanical Engineering",subtitle:"You're drawn to pushing the boundaries of what's physically possible. France is home to world-class aerospace and mechanical engineering schools with direct ties to Airbus, Safran, and the ESA.",
+    paths:[{color:"#1a3a6b",match:"97% Match",title:"Aerospace Engineering",desc:"Design aircraft, rockets, and satellites. Work with propulsion, aerodynamics, and structural mechanics.",tags:["Aerodynamics","Propulsion","CAD","Structures"]},{color:"#c9a84c",match:"85% Match",title:"Mechanical Engineering",desc:"Broad field covering energy systems, manufacturing, robotics and industrial design.",tags:["Thermodynamics","Robotics","Manufacturing"]},{color:"#c1392b",match:"72% Match",title:"Materials Science",desc:"Develop new materials for extreme environments — heat shields, composites, smart alloys.",tags:["Composites","Metallurgy","R&D"]}],
+    schools:[{name:"ISAE-SUPAERO",city:"Toulouse",rank:"#1 in Aerospace",type:"Grande École"},{name:"École Polytechnique",city:"Palaiseau",rank:"Top 1 Overall",type:"Grande École"},{name:"ENSMA",city:"Poitiers",rank:"#3 Aerospace",type:"Grande École"},{name:"Arts et Métiers",city:"Multi-campus",rank:"Top Mechanical",type:"Grande École"}],
+    timeline:[{year:"Year 1–2 (Bac)",title:"Scientific Baccalauréat",desc:"Focus on Maths, Physics and Sciences. Aim for mention Très Bien."},{year:"Year 3–4 (CPGE)",title:"Classe Préparatoire — MPSI/MP",desc:"Two years of intensive maths and physics at a prépa to prepare for the concours entrance exams."},{year:"Year 5–7 (École)",title:"Grande École d'Ingénieurs",desc:"3 years at your school. Internships in industry, project work, and specialisation."},{year:"Year 8+ (Career)",title:"Engineer / PhD / Startup",desc:"Join Airbus, Safran, or ESA. Or pursue a PhD at a CNRS lab, or launch your own deep-tech venture."}],
+    tips:[{icon:"📚",title:"Key subjects",text:"Excel in Maths and Physics at Lycée. Terminale Spé Maths + Physique-Chimie is essential."},{icon:"🏆",title:"Concours prep",text:"The entrance exams (Mines, Centrale, X) are highly competitive. Start CPGE at a strong prépa."},{icon:"🌍",title:"Go to Toulouse",text:"Toulouse is France's aerospace capital. ISAE-SUPAERO sits next door to Airbus — internships are easy to get."},{icon:"💻",title:"Learn CAD early",text:"Start learning CATIA or SolidWorks before school. It sets you apart in your first internship."}]},
+  digital:{badge:"💻 Digital & Computer Science",title:"Computer Science & Digital Engineering",subtitle:"You thrive in the world of code, data and systems. France's top engineering schools have built world-leading CS departments, and the French Tech startup ecosystem is booming.",
+    paths:[{color:"#1a3a6b",match:"96% Match",title:"Computer Science & AI",desc:"Machine learning, algorithms, data systems, and software engineering at the highest level.",tags:["Python","ML","Algorithms","Cloud"]},{color:"#c9a84c",match:"88% Match",title:"Cybersecurity",desc:"Protect critical systems and data. An exploding field with massive demand in France and globally.",tags:["Networks","Cryptography","Security"]},{color:"#c1392b",match:"75% Match",title:"Data Science & Analytics",desc:"Turn raw data into strategic insights. Work with companies, hospitals, or government agencies.",tags:["Statistics","Big Data","Visualisation"]}],
+    schools:[{name:"École Polytechnique",city:"Palaiseau",rank:"Top 1 Overall",type:"Grande École"},{name:"CentraleSupélec",city:"Gif-sur-Yvette",rank:"Top 3 CS",type:"Grande École"},{name:"EPITA",city:"Paris / Lyon",rank:"#1 Specialist CS",type:"Grande École"},{name:"Télécom Paris",city:"Paris",rank:"Top Telecom & AI",type:"Grande École"}],
+    timeline:[{year:"Year 1–2 (Bac)",title:"Bac S + NSI",desc:"Maths + NSI (Numérique et Sciences Informatiques) is the ideal combo. Code in your free time."},{year:"Year 3–4",title:"CPGE or Licence Informatique",desc:"MPSI prépa for top schools, or a Licence Info at a university for a more accessible route."},{year:"Year 5–7 (École)",title:"Grande École or Master",desc:"Deep dive into your specialism. Do internships in startups, GAFAM labs or French tech companies."},{year:"Year 8+",title:"Engineer / PhD / Entrepreneur",desc:"Join a French unicorn (Mistral, Doctolib), work at Google DeepMind Paris, or start your own tech company."}],
+    tips:[{icon:"💡",title:"Start coding now",text:"Learn Python, then explore HTML/CSS and algorithms. Platforms like France-IOI are excellent for beginners."},{icon:"🧠",title:"AI is the future",text:"France has a national AI strategy and Paris is one of Europe's leading AI research hubs."},{icon:"🚀",title:"French Tech ecosystem",text:"Station F in Paris is the world's largest startup campus. Network early and build side projects."},{icon:"🔐",title:"Cybersecurity demand",text:"ANSSI and dozens of firms are hiring. Pôle d'Excellence Cyber in Brittany is growing fast."}]},
+  environment:{badge:"🌱 Energy & Environment",title:"Environmental & Energy Engineering",subtitle:"You want to build a sustainable future. France is at the forefront of nuclear energy, renewables, and environmental technology — offering unique opportunities for eco-engineers.",
+    paths:[{color:"#2d6a4f",match:"95% Match",title:"Energy Engineering",desc:"Nuclear, renewables, hydrogen, smart grids — France needs engineers to power the green transition.",tags:["Nuclear","Solar","Grid","Hydrogen"]},{color:"#c9a84c",match:"87% Match",title:"Environmental Engineering",desc:"Water treatment, waste management, pollution control and ecological restoration.",tags:["Water","Soil","Pollution","Ecology"]},{color:"#1a3a6b",match:"74% Match",title:"Civil & Infrastructure",desc:"Design resilient cities and sustainable transport systems for a changing climate.",tags:["Urban","Transport","Climate"]}],
+    schools:[{name:"École des Ponts ParisTech",city:"Paris",rank:"#1 Civil/Env",type:"Grande École"},{name:"INSA Lyon",city:"Lyon",rank:"Top Energy",type:"INSA Network"},{name:"Mines Paris",city:"Paris",rank:"Top Energy & Resources",type:"Grande École"},{name:"École Centrale Nantes",city:"Nantes",rank:"Top Marine & Energy",type:"Grande École"}],
+    timeline:[{year:"Year 1–2 (Bac)",title:"Bac S — SVT or Physique",desc:"Sciences de la vie et de la Terre (SVT) + Physique-Chimie give you a strong environmental science base."},{year:"Year 3–4",title:"CPGE PCSI or BCPST",desc:"PCSI/PC for energy and civil routes. BCPST for more biological/environmental focus."},{year:"Year 5–7 (École)",title:"Specialisation in Energy or Environment",desc:"Work on real-world projects: solar farm optimisation, nuclear plant simulations, water treatment design."},{year:"Year 8+",title:"EDF, ENGIE, or NGO",desc:"Join EDF Renewables, Veolia, ENGIE, or ADEME — or work with international organisations like the UN."}],
+    tips:[{icon:"⚡",title:"Nuclear is key in France",text:"France gets ~70% of its electricity from nuclear. Understanding nuclear engineering is a huge asset."},{icon:"🌿",title:"Renewable energy boom",text:"The French government is massively investing in offshore wind, solar, and hydrogen."},{icon:"🏗️",title:"Go to Nantes or Lyon",text:"These cities have strong ecosystems in sustainable construction and energy."},{icon:"🌐",title:"Think international",text:"Environmental engineering is inherently global. French engineers are highly sought in EU agencies and the UN."}]},
+  biomedical:{badge:"⚕️ Biomedical & Health",title:"Biomedical & Health Engineering",subtitle:"You want technology to heal and improve lives. France has world-class medical research institutions and a growing MedTech sector — combining engineering with life sciences.",
+    paths:[{color:"#c1392b",match:"94% Match",title:"Biomedical Engineering",desc:"Design medical devices, prosthetics, imaging systems, and diagnostic tools.",tags:["MRI","Prosthetics","Sensors","Imaging"]},{color:"#1a3a6b",match:"82% Match",title:"Bioinformatics & Health Data",desc:"Apply algorithms and AI to genomics, electronic health records, and drug discovery.",tags:["Genomics","Python","AI","Pharma"]},{color:"#c9a84c",match:"70% Match",title:"Chemical & Pharmaceutical Eng.",desc:"Work at the interface of chemistry, biology and manufacturing to develop medicines.",tags:["Chemistry","Biochemistry","Manufacturing"]}],
+    schools:[{name:"ESPCI Paris",city:"Paris",rank:"#1 Life Sciences Eng.",type:"Grande École"},{name:"Université Paris Cité",city:"Paris",rank:"Top Biomedical",type:"Université"},{name:"INSA Lyon",city:"Lyon",rank:"Top Biotech",type:"INSA Network"},{name:"Grenoble INP",city:"Grenoble",rank:"Top Health Tech",type:"Grande École"}],
+    timeline:[{year:"Year 1–2 (Bac)",title:"Bac S — SVT + Physique + Maths",desc:"Build a foundation in biology, chemistry, and mathematics."},{year:"Year 3–4",title:"CPGE BCPST or L1-PASS",desc:"BCPST prépa leads to engineering schools. PASS can combine med + engineering tracks."},{year:"Year 5–7",title:"Biomedical Engineering Diploma",desc:"Projects in hospitals, MedTech labs. Internships with Philips, Siemens Healthineers."},{year:"Year 8+",title:"MedTech Engineer / Researcher",desc:"Join Sanofi, bioMérieux, or a hospital biomedical department. Or pursue a PhD at INSERM."}],
+    tips:[{icon:"🧬",title:"French biotech is growing",text:"France ranked 4th globally in life sciences investment. Lyon and Paris are major European biotech hubs."},{icon:"🏥",title:"Hospital internships matter",text:"Try to secure a stage at a hospital engineering department for direct patient-care context."},{icon:"📊",title:"Learn health data skills",text:"Python and R for bioinformatics are increasingly essential. Health AI is one of the fastest-growing sectors."},{icon:"🔬",title:"INSERM & Institut Pasteur",text:"Two world-leading French research bodies. PhD positions there are highly prestigious."}]}
+};
+
+const allSchools = [
+  // AEROSPACE
+  {name:"École Polytechnique",      city:"Palaiseau",        domain:"Multi",        tier:"top", minGrade:"top", selectivity:95, salary:60000, type:"Grande École",      ranking:"#1 France",          specialities:"Maths, CS, Physics, Engineering",        profiles:["aerospace","digital","environment","biomedical"]},
+  {name:"ISAE-SUPAERO",             city:"Toulouse",          domain:"Aerospace",    tier:"top", minGrade:"top", selectivity:92, salary:52000, type:"Grande École",      ranking:"#1 Aerospace",       specialities:"Aeronautics, Space, Defence",             profiles:["aerospace"]},
+  {name:"ENSMA",                    city:"Poitiers",          domain:"Aerospace",    tier:"top", minGrade:"top", selectivity:85, salary:48000, type:"Grande École",      ranking:"#2 Aerospace",       specialities:"Propulsion, Aerodynamics, Structures",   profiles:["aerospace"]},
+  {name:"Mines Paris – PSL",        city:"Paris",             domain:"Multi",        tier:"top", minGrade:"top", selectivity:88, salary:58000, type:"Grande École",      ranking:"Top 3",              specialities:"Energy, Finance, Industry, Materials",    profiles:["aerospace","environment","biomedical"]},
+  {name:"CentraleSupélec",          city:"Gif-sur-Yvette",    domain:"Multi",        tier:"top", minGrade:"good",selectivity:90, salary:56000, type:"Grande École",      ranking:"#2 Engineering",     specialities:"CS, Energy, Telecom, Industry",           profiles:["aerospace","digital","environment"]},
+  {name:"Arts et Métiers",          city:"Multi-campus",      domain:"Mécanique",    tier:"mid", minGrade:"good",selectivity:75, salary:43000, type:"Grande École",      ranking:"#1 Mechanical",      specialities:"Mechanical, Manufacturing, Design",       profiles:["aerospace"]},
+  {name:"INSA Toulouse",            city:"Toulouse",          domain:"Multi",        tier:"mid", minGrade:"good",selectivity:72, salary:44000, type:"INSA Network",      ranking:"Top INSA Aero",      specialities:"Aerospace, Mechanical, CS",              profiles:["aerospace"]},
+  {name:"Grenoble INP – Ense3",     city:"Grenoble",          domain:"Energy",       tier:"mid", minGrade:"avg", selectivity:68, salary:42000, type:"Grande École",      ranking:"Top Energy",         specialities:"Energy, Mechanics, Electronics",          profiles:["aerospace","environment"]},
+  {name:"Polytech Paris-Saclay",    city:"Orsay",             domain:"Multi",        tier:"mid", minGrade:"avg", selectivity:60, salary:38000, type:"Polytech Network",  ranking:"Polytech Network",   specialities:"Mechanics, CS, Electronics",              profiles:["aerospace"]},
+  {name:"IUT Génie Mécanique",      city:"Multiple cities",   domain:"Mécanique",    tier:"uni", minGrade:"avg", selectivity:45, salary:30000, type:"IUT / BUT",         ranking:"IUT Network",        specialities:"Mechanical Engineering, Manufacturing",  profiles:["aerospace"]},
+  {name:"Polytech Clermont",        city:"Clermont-Ferrand",  domain:"Multi",        tier:"mid", minGrade:"avg", selectivity:55, salary:35000, type:"Polytech Network",  ranking:"Polytech Network",   specialities:"Mechanics, Civil, CS",                   profiles:["aerospace"]},
+  {name:"CESI École d'Ingénieurs",  city:"Multi-campus",      domain:"Multi",        tier:"uni", minGrade:"low", selectivity:30, salary:32000, type:"École d'Ingénieurs","ranking":"Accessible",       specialities:"Generalist, Work-study, Industry",        profiles:["aerospace"]},
+  // DIGITAL / CS
+  {name:"EPITA",                    city:"Paris / Lyon",      domain:"CS",           tier:"mid", minGrade:"good",selectivity:70, salary:46000, type:"Grande École",      ranking:"#1 CS Specialist",   specialities:"Computer Science, Cybersecurity, AI",     profiles:["digital"]},
+  {name:"Télécom Paris",            city:"Paris",             domain:"Digital",      tier:"top", minGrade:"top", selectivity:82, salary:52000, type:"Grande École",      ranking:"#1 Telecom & AI",    specialities:"Telecom, AI, Networks, Data",             profiles:["digital"]},
+  {name:"ENSIMAG",                  city:"Grenoble",          domain:"CS",           tier:"mid", minGrade:"good",selectivity:78, salary:48000, type:"Grande École",      ranking:"#1 CS – Grenoble",   specialities:"CS, Applied Maths, Software Eng.",        profiles:["digital"]},
+  {name:"Télécom SudParis",         city:"Évry",              domain:"Digital",      tier:"mid", minGrade:"good",selectivity:72, salary:44000, type:"Grande École",      ranking:"Top Telecom Network", specialities:"AI, Cybersecurity, Networks, IoT",       profiles:["digital"]},
+  {name:"INSA Lyon – Informatique", city:"Lyon",              domain:"CS",           tier:"mid", minGrade:"good",selectivity:73, salary:44000, type:"INSA Network",      ranking:"Top INSA CS",        specialities:"Software Eng., Distributed Systems",      profiles:["digital"]},
+  {name:"ENSIIE",                   city:"Évry / Strasbourg", domain:"CS",           tier:"mid", minGrade:"avg", selectivity:62, salary:40000, type:"Grande École",      ranking:"Specialist CS",      specialities:"Algorithms, Software, Data Science",      profiles:["digital"]},
+  {name:"IUT Informatique",         city:"Multiple cities",   domain:"CS",           tier:"uni", minGrade:"avg", selectivity:50, salary:30000, type:"IUT / BUT",         ranking:"IUT Network",        specialities:"Programming, Networks, Web Dev",          profiles:["digital"]},
+  {name:"Polytech Paris-Saclay CS", city:"Orsay",             domain:"CS",           tier:"mid", minGrade:"avg", selectivity:60, salary:38000, type:"Polytech Network",  ranking:"Polytech CS",        specialities:"CS, AI, Data Science",                   profiles:["digital"]},
+  {name:"3iL Ingénieurs",           city:"Limoges",           domain:"CS",           tier:"uni", minGrade:"low", selectivity:28, salary:32000, type:"École d'Ingénieurs","ranking":"Accessible CS",    specialities:"Software, Networks, Web",                 profiles:["digital"]},
+  {name:"CESI Informatique",        city:"Multi-campus",      domain:"CS",           tier:"uni", minGrade:"low", selectivity:25, salary:30000, type:"École d'Ingénieurs","ranking":"Alternance CS",    specialities:"IT, Networks, Cybersecurity",              profiles:["digital"]},
+  // ENVIRONMENT / ENERGY
+  {name:"École des Ponts",          city:"Paris",             domain:"Civil/Env",    tier:"top", minGrade:"top", selectivity:85, salary:50000, type:"Grande École",      ranking:"#1 Civil & Env",     specialities:"Civil, Environment, Transport, Urban",   profiles:["environment"]},
+  {name:"INSA Lyon – GEN",          city:"Lyon",              domain:"Energy/Env",   tier:"mid", minGrade:"good",selectivity:72, salary:42000, type:"INSA Network",      ranking:"Top INSA Env",       specialities:"Environmental & Energy Engineering",      profiles:["environment"]},
+  {name:"École Centrale Nantes",    city:"Nantes",            domain:"Energy",       tier:"mid", minGrade:"good",selectivity:78, salary:48000, type:"Grande École",      ranking:"Top Marine & Energy", specialities:"Renewables, Marine, Offshore Eng.",      profiles:["environment"]},
+  {name:"IMT Atlantique",           city:"Nantes / Brest",    domain:"Energy/Env",   tier:"mid", minGrade:"good",selectivity:74, salary:44000, type:"Grande École",      ranking:"Top Energy Transition","specialities":"Energy, Ocean Tech, Environment",      profiles:["environment"]},
+  {name:"INSA Strasbourg",          city:"Strasbourg",        domain:"Civil/Env",    tier:"mid", minGrade:"avg", selectivity:62, salary:38000, type:"INSA Network",      ranking:"INSA Civil & Env",   specialities:"Civil, Environmental, Architecture",      profiles:["environment"]},
+  {name:"Polytech Nantes",          city:"Nantes",            domain:"Energy/Env",   tier:"mid", minGrade:"avg", selectivity:58, salary:36000, type:"Polytech Network",  ranking:"Polytech Environment","specialities":"Energy, Environment, Civil",            profiles:["environment"]},
+  {name:"IUT Génie Chimique",       city:"Multiple cities",   domain:"Chemistry/Env",tier:"uni", minGrade:"avg", selectivity:45, salary:28000, type:"IUT / BUT",         ranking:"IUT Network",        specialities:"Chemical Eng., Water, Environment",       profiles:["environment"]},
+  {name:"UniLaSalle Rouen",         city:"Rouen",             domain:"Agri/Env",     tier:"mid", minGrade:"avg", selectivity:52, salary:36000, type:"Grande École",      ranking:"Agri-Env Specialist","specialities":"Agri-Environment, Green Chemistry",     profiles:["environment"]},
+  {name:"ESITC Caen",               city:"Caen",              domain:"Civil/Env",    tier:"uni", minGrade:"low", selectivity:30, salary:32000, type:"École d'Ingénieurs","ranking":"Accessible Civil",  specialities:"Sustainable Construction, Civil Eng.",   profiles:["environment"]},
+  {name:"CESI Génie Industriel",    city:"Multi-campus",      domain:"Multi",        tier:"uni", minGrade:"low", selectivity:25, salary:30000, type:"École d'Ingénieurs","ranking":"Alternance",       specialities:"Industrial Eng., Env. Management",        profiles:["environment"]},
+  // BIOMEDICAL
+  {name:"ESPCI Paris",              city:"Paris",             domain:"Life Sciences", tier:"top", minGrade:"top", selectivity:87, salary:48000, type:"Grande École",     ranking:"#1 Life Sciences",   specialities:"Physics, Chemistry, Biology, Medical",   profiles:["biomedical"]},
+  {name:"Grenoble INP – Phelma",    city:"Grenoble",          domain:"Health Tech",  tier:"mid", minGrade:"good",selectivity:74, salary:46000, type:"Grande École",      ranking:"#1 Health Tech",     specialities:"Micro-nano, Biotech, Medical Devices",   profiles:["biomedical"]},
+  {name:"INSA Lyon – Biochimie",    city:"Lyon",              domain:"Biotech",      tier:"mid", minGrade:"good",selectivity:72, salary:42000, type:"INSA Network",      ranking:"Top INSA Biotech",   specialities:"Biochemistry, Biomedical, Pharma",        profiles:["biomedical"]},
+  {name:"INSA Toulouse – BioInfo",  city:"Toulouse",          domain:"Bioinfo",      tier:"mid", minGrade:"good",selectivity:70, salary:42000, type:"INSA Network",      ranking:"INSA Bioinformatics","specialities":"Bioinformatics, Health Data, AI",       profiles:["biomedical"]},
+  {name:"Polytech Sorbonne",        city:"Paris",             domain:"Biomedical",   tier:"mid", minGrade:"avg", selectivity:62, salary:38000, type:"Polytech Network",  ranking:"Polytech Biomed",    specialities:"Biomedical Eng., Signal, Imaging",        profiles:["biomedical"]},
+  {name:"Université Paris Cité",    city:"Paris",             domain:"Biomedical",   tier:"uni", minGrade:"avg", selectivity:50, salary:36000, type:"Université",        ranking:"Top Univ. Biomed",   specialities:"Biomedical, INSERM, Hospital Network",   profiles:["biomedical"]},
+  {name:"IUT Génie Biologique",     city:"Multiple cities",   domain:"Biotech",      tier:"uni", minGrade:"avg", selectivity:45, salary:27000, type:"IUT / BUT",         ranking:"IUT Network",        specialities:"Biology, Biotech, Lab Science",           profiles:["biomedical"]},
+  {name:"ESIEE Paris",              city:"Noisy-le-Grand",    domain:"Health Tech",  tier:"mid", minGrade:"avg", selectivity:60, salary:38000, type:"École d'Ingénieurs",ranking:"ESIEE Health Tech",  specialities:"Biomedical Devices, Electronics, IoT",   profiles:["biomedical"]},
+  {name:"ICAM Toulouse",            city:"Toulouse",          domain:"Multi",        tier:"uni", minGrade:"low", selectivity:30, salary:34000, type:"École d'Ingénieurs","ranking":"Accessible Eng.",  specialities:"Generalist, Work-study options",          profiles:["biomedical"]},
+  {name:"ESIL Marseille",           city:"Marseille",         domain:"Health Eng.",  tier:"uni", minGrade:"low", selectivity:28, salary:30000, type:"École d'Ingénieurs","ranking":"Health Eng. South","specialities":"Health Engineering, Biomedical",        profiles:["biomedical"]},
+];
+
+const salaryData = {
+  base: {aerospace:42000,digital:46000,energy:41000,biomedical:40000,civil:38000,finance:55000},
+  tier: {top:1.25,mid:1.0,uni:0.82},
+  exp: (y) => 1 + y * 0.04,
+  loc: {paris:1.12,regional:1.0,abroad:1.18}
+};
+
+const events = [
+  {month:"Jan",day:"15",year:"2026",title:"Parcoursup Opens",desc:"Applications open for IUT, licence and école tracks",type:"soon"},
+  {month:"Mar",day:"20",year:"2026",title:"Parcoursup Deadline",desc:"Final deadline to submit your Parcoursup application",type:"soon"},
+  {month:"Apr",day:"7",year:"2026",title:"Concours Écritten — Centrale-Supélec",desc:"Written exams for Centrale-Supélec Group (MPSI/MP track)",type:"soon"},
+  {month:"Apr",day:"14",year:"2026",title:"Concours Mines-Ponts — Écrits",desc:"Written examinations for the Mines-Ponts group",type:"soon"},
+  {month:"May",day:"5",year:"2026",title:"Concours Commun Polytechnique (X)",desc:"Written exams for the prestigious École Polytechnique entrance",type:"soon"},
+  {month:"Jun",day:"3",year:"2026",title:"Baccalauréat — Written Exams Begin",desc:"National Bac exams start. Focus and stay calm.",type:"soon"},
+  {month:"Jun",day:"18",year:"2026",title:"Oral Exams — Centrale Group",desc:"Oral rounds for admitted candidates, Centrale-Supélec",type:"soon"},
+  {month:"Jul",day:"2",year:"2026",title:"Parcoursup Offers",desc:"Schools send admission offers via Parcoursup",type:"future"},
+  {month:"Sep",day:"1",year:"2026",title:"Rentrée — School Starts",desc:"First day at your Grande École or Prépa. Bon courage !",type:"future"},
+];
+
+const checklistData = [
+  {cat:"📚 Academic Preparation", items:["Master Terminale Maths (spécialité)","Complete Terminale Physique-Chimie","Study for Bac with mention Très Bien (aim for 16+/20)","Start CPGE research in November","Visit open days (portes ouvertes) at prépas near you"]},
+  {cat:"📋 Applications", items:["Create your Parcoursup account (opens January)","Write your lettre de motivation for each school","Collect school grades and bulletins","Request teacher recommendation letters","Submit Parcoursup application before March deadline"]},
+  {cat:"🏫 School Research", items:["Research at least 5 engineering schools in your field","Compare selectivity, campus, and specialities","Join school Discord/Facebook groups for current students","Attend school open days or virtual tours","Identify which concours each school uses (Centrale, X, INSA…)"]},
+  {cat:"💡 Extracurriculars", items:["Join a science or coding club at your Lycée","Complete at least one STEM internship or shadowing","Participate in olympiades de mathématiques or physique","Start a personal project (app, experiment, design)","Improve your English level (B2 minimum, aim for C1)"]},
+  {cat:"🎯 Concours Preparation", items:["Buy CPGE prep books (Maths MP/PC, Physique)","Practice past concours papers (annales)","Find a study group or tutor for difficult topics","Use Exo7 and Mathprepa.fr for free resources","Simulate full exam conditions once a month"]},
+];
+
+const testimonials = [
+  {text:"I had no idea what engineering field to choose. The quiz pointed me toward environmental engineering and suggested Ponts ParisTech — I applied, got in, and now I'm doing my final year project on smart water grids.",name:"Camille D.",role:"4th year, École des Ponts",school:"🌱 Environmental Eng.",color:"#2d6a4f",initial:"C"},
+  {text:"Coming from a small town in Bretagne, the French engineering system felt intimidating. This site helped me understand the CPGE path step by step. I'm now at INSA Lyon studying biotech — the roadmap was spot on.",name:"Théo M.",role:"2nd year, INSA Lyon",school:"⚕️ Biomedical Eng.",color:"#c1392b",initial:"T"},
+  {text:"The salary calculator was eye-opening. I didn't realise CS engineers in Paris earn so much more than other regions. It made me commit to the digital track and I got into Télécom Paris last year.",name:"Sofia K.",role:"1st year, Télécom Paris",school:"💻 Digital Eng.",color:"#1a3a6b",initial:"S"},
+  {text:"The glossary finally explained what CTI, concours, and prépa actually mean in English — I'm an international student and was completely lost before. Now I'm preparing for the Mines-Ponts concours.",name:"James L.",role:"CPGE 2nd year, Paris",school:"🚀 Aerospace Eng.",color:"#c9a84c",initial:"J"},
+  {text:"The checklist kept me sane through the Parcoursup period. I could see exactly what was left to do. I ticked everything off by February and felt fully prepared by March.",name:"Lucie B.",role:"3rd year, CentraleSupélec",school:"💻 CS & AI",color:"#1a3a6b",initial:"L"},
+  {text:"I used the school comparator to narrow down from 12 schools to 4. The selectivity and salary data made the decision much clearer. I'm now at Arts et Métiers and loving it.",name:"Romain V.",role:"1st year, Arts et Métiers",school:"🚀 Mechanical Eng.",color:"#c9a84c",initial:"R"},
+];
+
+const glossary = [
+  {term:"Baccalauréat",en:"Bac",def:"The French secondary school diploma. The 'Bac S' (scientific) or the new 'Bac général avec spécialités' (Maths + Physique) is required for engineering schools."},
+  {term:"Classe Préparatoire (CPGE)",en:"Prépa",def:"Two years of intensive post-Bac study in Maths and Sciences before the concours entrance exams. The main tracks are MPSI/MP (maths-physics), PCSI/PC (physics-chemistry), and BCPST (biology-maths). Highly demanding but well worth it."},
+  {term:"Concours",en:"Competitive Entrance Exam",def:"Competitive written and oral examinations taken at the end of CPGE (prépa). The results determine which Grande École you can attend. Major concours groups include Centrale-Supélec, Mines-Ponts, the X (Polytechnique), and CCINP."},
+  {term:"Grande École",en:"Elite Engineering/Business School",def:"Selective French higher education institutions outside the university system. Engineering Grandes Écoles (e.g. Polytechnique, CentraleSupélec, ISAE-SUPAERO) award a 5-year diploma equivalent to a Master's degree."},
+  {term:"CTI",en:"French Engineering Accreditation Board",def:"Commission des Titres d'Ingénieur — the body that accredits French engineering schools and their diplomas. A CTI-accredited diploma is recognised across Europe as equivalent to a Master's in engineering."},
+  {term:"Parcoursup",en:"University Application Platform",def:"The national online platform for applying to French higher education after the Bac. Used for CPGE, IUT, and some engineering school preparatory programmes. Opens in January each year."},
+  {term:"Diplôme d'Ingénieur",en:"Engineering Diploma / Master's level",def:"The 5-year degree awarded by accredited French engineering schools. It combines a pre-engineering cycle (2 years) and a specialisation cycle (3 years). Equivalent in Europe to a Master of Science in Engineering."},
+  {term:"Stage",en:"Internship",def:"Mandatory internships (stages) are a key part of every French engineering programme. Students typically complete 2–4 stages during their studies, often with major industrial partners (Airbus, EDF, Capgemini, etc.)."},
+  {term:"IUT",en:"University Institute of Technology",def:"Institut Universitaire de Technologie — 2-year technical programmes (BUT) within universities, accessible after the Bac without prépa. A more direct and accessible route into engineering."},
+  {term:"Mention",en:"Honours Grade",def:"Grade achieved at the Bac or exams: Passable (10–12), Assez Bien (12–14), Bien (14–16), Très Bien (16+). Most CPGE programmes expect at least Bien, competitive ones prefer Très Bien."},
+  {term:"INSA",en:"National Institute of Applied Sciences",def:"A national network of 7 engineering schools (Lyon, Toulouse, Strasbourg, etc.) with a direct access route from the Bac — no prépa required. Very respected and known for excellent graduate employment rates."},
+  {term:"Annales",en:"Past Exam Papers",def:"Past concours exam papers used to prepare for entrance examinations. Freely available online. Practising annales is the most effective study method for the concours."},
+];
+
+const faqs = [
+  {q:"Do I need to speak French to study engineering in France?",a:"For most programmes, yes — French is the language of instruction. However, many Grandes Écoles now offer English-taught Master's programmes or tracks for international students. Learning French (at least B2 level) is highly recommended, as it will significantly improve your professional integration in France."},
+  {q:"How much does studying at a Grande École cost?",a:"Public Grandes Écoles (Polytechnique, Mines, Centrale, INSA…) charge relatively low tuition fees — typically €600–€2,500/year, subsidised by the French state. Private schools can charge up to €10,000/year. During prépa, there are no tuition fees for public institutions. Scholarships (bourses) are available based on family income."},
+  {q:"Is the prépa (CPGE) path obligatory to enter a Grande École?",a:"No — but it is the most common and prestigious route. Alternatives include: direct admission at INSA and some schools after the Bac (no prépa), entry after a DUT/BUT from an IUT, parallel admission (admissions parallèles) into Year 2 or 3 of an engineering school with a Licence or DUT."},
+  {q:"What is the difference between a Grande École and a university in France?",a:"Grandes Écoles are selective, smaller, and career-oriented institutions with strong industry connections. Universities are open to all Bac holders and offer more theoretical and research-oriented programmes. Engineering at a Grande École is generally considered more prestigious in France and leads to faster career progression."},
+  {q:"Can I work part-time while studying engineering?",a:"It is technically possible but strongly discouraged in prépa — the workload is extreme (40–50h/week). At engineering schools, it becomes more feasible from Year 2 onwards, especially for internships. Many students do paid internships (stages rémunérés) which count toward their degree."},
+  {q:"How competitive are the top engineering schools in France?",a:"Very. École Polytechnique accepts roughly 500 students per year from thousands of candidates. CentraleSupélec and Mines-Ponts accept a few hundred each. INSA and other schools via Parcoursup are competitive but more accessible. The key metric is your performance in the concours at the end of prépa."},
+  {q:"Are French engineering degrees recognised outside France?",a:"Yes. CTI-accredited engineering diplomas are recognised throughout Europe under the EUR-ACE framework, equivalent to a Master of Science in Engineering. French engineers are highly sought in Germany, Switzerland, Canada, and internationally — especially in aerospace, energy, and tech sectors."},
+];
+
+// ══════════════════════════════════════
+// QUIZ
+// ══════════════════════════════════════
+// ══════════════════════════════════════
+// BAC TYPE + QUIZ STATE
+// ══════════════════════════════════════
+let bacType = null; // 'french' or 'foreign'
+let quizStarted = false;
+let current = 0, answers = [], quizProfile = null, gradeLevel = null;
+
+// ── BAC SELECTOR ──
+function showBacSelector() {
+  document.getElementById('stepIndicator').innerHTML = '';
+  document.getElementById('quizCard').innerHTML = `
+    <div class="q-label">Step 0 — Background</div>
+    <div class="q-title">What type of Baccalauréat do you have (or are preparing)?</div>
+    <div class="options-grid">
+      <button class="option-btn${bacType==='french'?' selected':''}" onclick="setBac('french')">
+        <span class="option-icon">🇫🇷</span>
+        <span class="option-text">French Baccalauréat<br><small style="opacity:.55;font-size:.78rem">Bac général, technologique or professionnel</small></span>
+      </button>
+      <button class="option-btn${bacType==='foreign'?' selected':''}" onclick="setBac('foreign')">
+        <span class="option-icon">🌍</span>
+        <span class="option-text">Foreign / International Baccalaureate<br><small style="opacity:.55;font-size:.78rem">IB, A-Levels, Abitur, SAT, or equivalent</small></span>
+      </button>
+    </div>
+    <div class="quiz-nav">
+      <div></div>
+      <button class="btn-next" id="nextBtn" onclick="startQuiz()" ${!bacType?'disabled':''}>Start Quiz →</button>
+    </div>`;
+}
+
+function setBac(type) {
+  bacType = type;
+  showBacSelector();
+}
+
+function startQuiz() {
+  if (!bacType) return;
+  quizStarted = true;
+  current = 0;
+  answers = [];
+  renderQuestion();
+}
+
+// ── QUESTIONS (12 total across 4 sections) ──
+const questions = [
+  // SECTION A — Engineering Interests (3 questions)
+  { section:"A", label:"Section A · Engineering Interests · Question 1 of 3",
+    title:"Which engineering field do you feel most drawn to?",
+    options:[
+      {icon:"🚀",text:"Aerospace, propulsion & space systems",value:"tech"},
+      {icon:"🌱",text:"Energy, environment & sustainability",value:"env"},
+      {icon:"💻",text:"Software, AI & digital systems",value:"digital"},
+      {icon:"⚕️",text:"Biomedical, health & life sciences",value:"bio"}
+    ]},
+  { section:"A", label:"Section A · Engineering Interests · Question 2 of 3",
+    title:"How do you prefer to work day-to-day?",
+    options:[
+      {icon:"🔭",text:"Research lab — solving complex theoretical problems",value:"research"},
+      {icon:"🏗️",text:"On-site — hands-on, practical, outdoors",value:"field"},
+      {icon:"🖥️",text:"At a screen — coding, modelling, designing",value:"desk"},
+      {icon:"🤝",text:"Leading teams & managing multi-disciplinary projects",value:"team"}
+    ]},
+  { section:"A", label:"Section A · Engineering Interests · Question 3 of 3",
+    title:"What kind of impact do you want to have?",
+    options:[
+      {icon:"🌍",text:"Global — climate, space, energy infrastructure",value:"global"},
+      {icon:"🏙️",text:"Local — urban planning, construction, transport",value:"local"},
+      {icon:"💡",text:"Innovative — disrupt industries, create new products",value:"innov"},
+      {icon:"📊",text:"Strategic — make high-level technical decisions in large corps",value:"strat"}
+    ]},
+  // SECTION B — Academic Profile (3 questions)
+  { section:"B", label:"Section B · Academic Profile · Question 1 of 3",
+    title:"What were your overall grades in Maths & Sciences?",
+    options:[
+      {icon:"⭐",text:"Excellent — top of class, 17+/20 or A* equivalent",value:"grade_top"},
+      {icon:"📈",text:"Good — above average, 14–17/20 or B/A equivalent",value:"grade_good"},
+      {icon:"📘",text:"Average — around 11–14/20 or C equivalent",value:"grade_avg"},
+      {icon:"🎯",text:"Mixed — strong in some areas, weaker in others",value:"grade_mixed"}
+    ]},
+  { section:"B", label:"Section B · Academic Profile · Question 2 of 3",
+    title:"Which subjects feel most natural to you?",
+    options:[
+      {icon:"📐",text:"Maths & Physics — equations, proofs, calculations",value:"subj_maths"},
+      {icon:"🧪",text:"Chemistry & Biology — experiments, living systems",value:"subj_bio"},
+      {icon:"💻",text:"Computer Science & Logic — coding, algorithms",value:"subj_cs"},
+      {icon:"📚",text:"General Sciences + strong in essays & analysis",value:"subj_general"}
+    ]},
+  { section:"B", label:"Section B · Academic Profile · Question 3 of 3",
+    title:"What is your English language level?",
+    options:[
+      {icon:"🗣️",text:"Fluent / Native (C1–C2)",value:"eng_fluent"},
+      {icon:"📖",text:"Good (B2 — can handle academic texts)",value:"eng_good"},
+      {icon:"📝",text:"Intermediate (B1 — basic communication)",value:"eng_inter"},
+      {icon:"🔤",text:"Beginner / Limited (A1–A2)",value:"eng_low"}
+    ]},
+  // SECTION C — School Preferences (3 questions)
+  { section:"C", label:"Section C · School Preferences · Question 1 of 3",
+    title:"Which school characteristics matter most to you?",
+    options:[
+      {icon:"🏆",text:"Prestige & global reputation — the best-known name",value:"pref_prestige"},
+      {icon:"🔬",text:"Research excellence — cutting-edge labs & PhD pathways",value:"pref_research"},
+      {icon:"🤝",text:"Industry partnerships — internships & direct employment",value:"pref_industry"},
+      {icon:"🌎",text:"International environment — diverse student body, English programmes",value:"pref_intl"}
+    ]},
+  { section:"C", label:"Section C · School Preferences · Question 2 of 3",
+    title:"What is your definition of quality education?",
+    options:[
+      {icon:"📡",text:"Rigorous theoretical foundation — deep mastery of fundamentals",value:"qual_theory"},
+      {icon:"🛠️",text:"Hands-on, project-based learning with real-world applications",value:"qual_practical"},
+      {icon:"🌐",text:"Interdisciplinary breadth — exposure to business, law, humanities",value:"qual_broad"},
+      {icon:"🤖",text:"Cutting-edge specialisation — focus on emerging technologies",value:"qual_cuttingedge"}
+    ]},
+  { section:"C", label:"Section C · School Preferences · Question 3 of 3",
+    title:"Where would you ideally like to study?",
+    options:[
+      {icon:"🗼",text:"Paris — the heart of French innovation & culture",value:"loc_paris"},
+      {icon:"✈️",text:"Toulouse or Lyon — strong engineering cities, more affordable",value:"loc_regional"},
+      {icon:"🌊",text:"Grenoble, Nantes or other campus cities",value:"loc_other"},
+      {icon:"💻",text:"Doesn't matter — I'm open to anywhere in France",value:"loc_anywhere"}
+    ]},
+  // SECTION D — Career Goals (3 questions)
+  { section:"D", label:"Section D · Career Goals · Question 1 of 3",
+    title:"Where do you see yourself 10 years after graduating?",
+    options:[
+      {icon:"✈️",text:"Working at an international company or living abroad",value:"abroad"},
+      {icon:"🇫🇷",text:"Building a career in France — stability & quality of life",value:"france"},
+      {icon:"🔬",text:"Academic research or PhD — pushing the frontiers of knowledge",value:"phd"},
+      {icon:"🧑‍💼",text:"Launching my own startup or innovation consultancy",value:"startup"}
+    ]},
+  { section:"D", label:"Section D · Career Goals · Question 2 of 3",
+    title:"Which job roles appeal to you the most?",
+    options:[
+      {icon:"⚙️",text:"Design Engineer / R&D Engineer — creating & testing systems",value:"job_rnd"},
+      {icon:"📊",text:"Data Scientist / AI Engineer — working with models & datasets",value:"job_data"},
+      {icon:"🏢",text:"Project Manager / Engineering Manager — leading teams",value:"job_mgr"},
+      {icon:"🌿",text:"Environmental Consultant / Energy Analyst",value:"job_env"}
+    ]},
+  { section:"D", label:"Section D · Career Goals · Question 3 of 3",
+    title:"What salary expectation do you have 5 years after graduation?",
+    options:[
+      {icon:"💰",text:"€60,000+ — I'm aiming for top-tier compensation",value:"sal_high"},
+      {icon:"📈",text:"€45,000–60,000 — good salary with meaningful work",value:"sal_mid"},
+      {icon:"💼",text:"€35,000–45,000 — steady income, work-life balance priority",value:"sal_stable"},
+      {icon:"🌍",text:"Salary is less important — impact & purpose matter more",value:"sal_purpose"}
+    ]}
+];
+
+function getProfile(a) {
+  const c = {tech:0, env:0, digital:0, bio:0};
+  a.forEach(v => {
+    if (["tech","global","innov","abroad","phd","subj_maths","qual_theory","job_rnd"].includes(v)) c.tech++;
+    if (["env","local","field","job_env","sal_purpose"].includes(v)) c.env++;
+    if (["digital","desk","startup","subj_cs","job_data","qual_cuttingedge"].includes(v)) c.digital++;
+    if (["bio","research","strat","france","subj_bio","job_mgr"].includes(v)) c.bio++;
+  });
+  const mx = Object.entries(c).sort((a,b) => b[1]-a[1])[0][0];
+  return {tech:'aerospace', env:'environment', digital:'digital', bio:'biomedical'}[mx];
+}
+
+function getGradeLevel(a) {
+  if (a.includes('grade_top')) return 'top';
+  if (a.includes('grade_good')) return 'good';
+  return 'average';
+}
+
+function renderSteps() {
+  const ind = document.getElementById('stepIndicator'); ind.innerHTML = '';
+  const sections = ['A','B','C','D'];
+  const sectionNames = ['Interests','Academics','School','Career'];
+  sections.forEach((s, si) => {
+    const qs = questions.filter(q => q.section === s);
+    const firstIdx = questions.findIndex(q => q.section === s);
+    const lastIdx = firstIdx + qs.length - 1;
+    const isDone = current > lastIdx;
+    const isActive = current >= firstIdx && current <= lastIdx;
+    const d = document.createElement('div');
+    d.className = 'step-dot' + (isDone ? ' done' : isActive ? ' active' : '');
+    d.textContent = isDone ? '✓' : sectionNames[si];
+    d.style.cssText = 'width:auto;padding:0 .6rem;min-width:32px;font-size:.6rem;';
+    ind.appendChild(d);
+    if (si < sections.length - 1) { const l = document.createElement('div'); l.className = 'step-line'; ind.appendChild(l); }
+  });
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('quizCard').innerHTML = `
+    <div class="q-label">${q.label}</div>
+    <div class="q-title">${q.title}</div>
+    <div class="options-grid">
+      ${q.options.map(o => `<button class="option-btn${answers[current]===o.value?' selected':''}" onclick="selectOption('${o.value}')"><span class="option-icon">${o.icon}</span><span class="option-text">${o.text}</span></button>`).join('')}
+    </div>
+    <div class="quiz-nav">
+      <button class="btn-back" onclick="prevQ()">← Back</button>
+      <button class="btn-next" id="nextBtn" onclick="nextQ()" ${!answers[current]?'disabled':''}>${current===questions.length-1?'See My Results →':'Next →'}</button>
+    </div>`;
+  renderSteps();
+}
+
+function selectOption(v) { answers[current] = v; renderQuestion(); }
+function nextQ() { if (!answers[current]) return; if (current < questions.length-1) { current++; renderQuestion(); } else { showResults(); } }
+function prevQ() { if (current > 0) { current--; renderQuestion(); } else { quizStarted = false; showBacSelector(); } }
+
+// ── EXTENDED SCHOOL DATA with pros/cons ──
+// minGrade: 'top'=17+/20, 'good'=14-17, 'avg'=11-14, 'low'=<11 (accessible)
+// gradeLabel shown on card; salary = avg starting gross €k
+const schoolDetails = {
+  aerospace: [
+    {name:"École Polytechnique",city:"Palaiseau",rank:"#1 Overall — France",type:"Grande École",minGrade:"top",salary:"€58–72k",pros:["Most prestigious French school","World-class research labs","Opens doors globally in any field"],cons:["Extreme selectivity — top 0.3%","Military obligation for French students","Very broad, less aerospace-specific"]},
+    {name:"ISAE-SUPAERO",city:"Toulouse",rank:"#1 Aerospace France",type:"Grande École",minGrade:"top",salary:"€48–62k",pros:["World-leading aerospace lab","Direct Airbus, Safran & ESA partnerships","Strong international alumni network"],cons:["Very specialised — harder to pivot careers","Located in Toulouse, not Paris","Highly competitive concours required"]},
+    {name:"ENSMA",city:"Poitiers",rank:"#2 Aerospace Specialist",type:"Grande École",minGrade:"top",salary:"€44–56k",pros:["Deep aerospace & propulsion specialisation","Strong ties with ONERA & Safran","Less competitive than ISAE but excellent"],cons:["Less internationally recognised","Small campus, fewer resources","Limited to aerospace/mechanical domains"]},
+    {name:"Mines Paris – PSL",city:"Paris",rank:"Top 3 — Mines Group",type:"Grande École",minGrade:"top",salary:"€55–70k",pros:["Elite research in materials & energy","PSL network opens global doors","Strong ties with aerospace industry"],cons:["Very competitive entrance exam","Broader than aerospace — you specialise later","Smaller cohort (170 students/year)"]},
+    {name:"CentraleSupélec",city:"Gif-sur-Yvette",rank:"Top 3 Engineering",type:"Grande École",minGrade:"good",salary:"€50–65k",pros:["Strong mechanical & systems engineering","Great industry partnerships (Airbus, Dassault)","Dual-degree options internationally"],cons:["Aerospace is a specialisation, not the focus","Campus outside Paris centre","Highly competitive prépa required"]},
+    {name:"Arts et Métiers",city:"Multi-campus",rank:"#1 Mechanical",type:"Grande École",minGrade:"good",salary:"€40–52k",pros:["France's strongest mechanical engineering tradition","8 campuses nationwide — flexibility","Excellent industry reputation for hands-on skills"],cons:["Less research-focused","Lower international visibility than top GE","Older-style pedagogy in some campuses"]},
+    {name:"INSA Toulouse",city:"Toulouse",rank:"Top INSA — Aerospace City",type:"INSA Network",minGrade:"good",salary:"€38–50k",pros:["Direct entry from Bac — no prépa required","Based in Toulouse next to Airbus headquarters","Strong mechanical & aerospace programmes"],cons:["Less prestigious than Grandes Écoles","Lower average starting salary","Large student body — less personal support"]},
+    {name:"Grenoble INP – Ense3",city:"Grenoble",rank:"Top Energy & Mechanics",type:"Grande École",minGrade:"avg",salary:"€36–48k",pros:["Strong industrial partnerships (CEA, STMicro)","Affordable city with great quality of life","Good mechanical and energy engineering programme"],cons:["Less known nationally than Paris schools","Not an aerospace specialist school","Smaller alumni network"]},
+    {name:"ISAE-ENSMA via DUT",city:"Poitiers",rank:"Parallel Admissions Route",type:"Admission Parallèle",minGrade:"avg",salary:"€38–50k",pros:["Accessible via DUT/BTS route — no prépa","Strong aerospace profile once admitted","Good stepping stone for motivated students"],cons:["Longer path (3 years IUT + 3 years school)","More competitive at admission parallèle level","Requires an outstanding DUT record"]},
+    {name:"IUT Génie Mécanique",city:"Multiple cities",rank:"University Technology Inst.",type:"IUT / BUT",minGrade:"avg",salary:"€28–38k",pros:["Accessible with 11-13/20 Bac grades","Practical, hands-on curriculum","Good stepping stone to engineering school via alternance"],cons:["Not a Grande École diploma","Lower salary ceiling","Requires continuing to a licence or master for higher positions"]},
+    {name:"Polytech Clermont / Lille",city:"Clermont / Lille",rank:"Polytech Network",type:"Polytech Network",minGrade:"avg",salary:"€34–44k",pros:["Nationwide network of 15 schools","Accessible via Parcoursup after Bac","Good balance of theory and practice"],cons:["Less prestigious than top GE","More variable quality by campus","Limited international reputation"]},
+    {name:"CESI École d'Ingénieurs",city:"Multi-campus",rank:"Accessible Engineer School",type:"École d'Ingénieurs",minGrade:"low",salary:"€30–40k",pros:["Accessible with lower Bac grades","Work-study (alternance) programmes available","CTI-accredited diploma"],cons:["Lower academic prestige","Private — higher tuition fees","Less recognised by top employers"]}
+  ],
+  digital: [
+    {name:"École Polytechnique",city:"Palaiseau",rank:"#1 Overall — France",type:"Grande École",minGrade:"top",salary:"€60–80k",pros:["Best CS & AI programme in France","Google, Meta and Mistral labs on campus","Unmatched alumni network worldwide"],cons:["Extreme selectivity (top 0.3%)","CS is one track among many","Military obligation for French students"]},
+    {name:"CentraleSupélec",city:"Gif-sur-Yvette",rank:"#2 CS & AI",type:"Grande École",minGrade:"top",salary:"€54–68k",pros:["World-class AI and data science labs","Dual-degree options with top international universities","Strong startup ecosystem connections"],cons:["Less prestige than Polytechnique","Campus 30 min outside Paris","Highly competitive prépa required"]},
+    {name:"Télécom Paris",city:"Paris",rank:"#1 Telecom & AI — Paris",type:"Grande École",minGrade:"top",salary:"€50–64k",pros:["Leading AI, networks and data science programme","Central Paris location","Part of Institut Polytechnique de Paris"],cons:["Telecom-heavy — narrower than CentraleSupélec","Smaller school (400 students/year)","Less known outside France"]},
+    {name:"EPITA",city:"Paris / Lyon / Rennes",rank:"#1 Specialist CS School",type:"Grande École",minGrade:"good",salary:"€44–58k",pros:["100% CS-focused — deepest specialisation in France","Paris campus in the city centre","Very strong alumni in tech startups and GAFAM"],cons:["More expensive (private school)","Less theoretical rigour than top GE","Less recognised outside tech sector"]},
+    {name:"ENSIMAG",city:"Grenoble",rank:"#1 CS — Grenoble INP",type:"Grande École",minGrade:"good",salary:"€44–56k",pros:["Best CS school outside Paris","Strong applied maths and algorithmics","Excellent employer reputation in software industry"],cons:["Grenoble is far from Paris","Competitive prépa required","Smaller alumni network"]},
+    {name:"Télécom SudParis",city:"Évry",rank:"Top Telecom Network",type:"Grande École",minGrade:"good",salary:"€42–54k",pros:["Part of Institut Mines-Télécom network","Strong AI and cybersecurity programmes","Good industry connections (Orange, SFR)"],cons:["Less prestigious than Télécom Paris","Located in Évry, outer suburb","Less diverse programme range"]},
+    {name:"INSA Lyon — Informatique",city:"Lyon",rank:"Top INSA CS",type:"INSA Network",minGrade:"good",salary:"€40–52k",pros:["Direct entry from Bac — no prépa","Strong CS and software engineering dept","Good Lyon tech ecosystem (Capgemini, Ubisoft)"],cons:["Less prestigious than Parisian GE","Large student body","Lower average starting salary"]},
+    {name:"ENSIIE",city:"Évry / Strasbourg",rank:"Specialist CS School",type:"Grande École",minGrade:"avg",salary:"€38–50k",pros:["100% dedicated to CS — focused programme","Accessible from CPGE or DUT","Good employer partnerships in software"],cons:["Less well-known than EPITA or ENSIMAG","Limited campus resources","Smaller alumni network"]},
+    {name:"IUT Informatique",city:"Multiple cities",rank:"University Technology Inst.",type:"IUT / BUT",minGrade:"avg",salary:"€28–38k",pros:["Accessible with 11-13/20 Bac grades","Practical coding skills from day one","Good employment rate at BUT level"],cons:["Not a Grande École diploma","Limited career ceiling without further study","Less theory-heavy"]},
+    {name:"Polytech Paris-Saclay",city:"Orsay",rank:"Polytech Network — CS",type:"Polytech Network",minGrade:"avg",salary:"€36–46k",pros:["Located in the Paris-Saclay tech hub","Accessible via Parcoursup","Close to many major tech employers"],cons:["Less prestigious than top GE","Variable quality by track","Requires prépa or equivalent for direct entry"]},
+    {name:"3iL Ingénieurs",city:"Limoges / Périgueux",rank:"Accessible CS Engineer",type:"École d'Ingénieurs",minGrade:"low",salary:"€30–40k",pros:["Very accessible admission requirements","Work-study options available","CTI-accredited — valid engineer diploma"],cons:["Low national prestige","Limited employer reach outside the region","Private — higher fees"]},
+    {name:"CESI Informatique",city:"Multi-campus",rank:"Accessible Work-Study",type:"École d'Ingénieurs",minGrade:"low",salary:"€30–40k",pros:["Strong alternance (work-study) model","Accessible with lower grades","Practical industry-focused curriculum"],cons:["Lower academic recognition","Private tuition fees","Not competitive for top tech employers"]}
+  ],
+  environment: [
+    {name:"École des Ponts ParisTech",city:"Paris",rank:"#1 Civil & Environment",type:"Grande École",minGrade:"top",salary:"€50–64k",pros:["Best civil and environmental programme in France","Paris location — excellent network","Strong EU, UN and World Bank partnerships"],cons:["Very high selectivity","Civil-engineering focused — less pure env. science","One of the hardest concours (Mines-Ponts group)"]},
+    {name:"Mines Paris – PSL",city:"Paris",rank:"Top 3 — Energy & Resources",type:"Grande École",minGrade:"top",salary:"€55–70k",pros:["World-class energy and earth sciences research","Strong ties with EDF, TotalEnergies, ENGIE","PSL network opens international doors"],cons:["Extremely competitive entrance","Broader than environment — you specialise in year 2","Small cohort: ~170 students/year"]},
+    {name:"INSA Lyon — GEN",city:"Lyon",rank:"Top INSA — Environment",type:"INSA Network",minGrade:"good",salary:"€38–50k",pros:["Direct entry from Bac — no prépa needed","Strong environmental & energy engineering dept","International partnerships (Erasmus, double degrees)"],cons:["Less prestigious than Parisian Grandes Écoles","Lower starting salary ceiling","Large campus can feel impersonal"]},
+    {name:"École Centrale Nantes",city:"Nantes",rank:"Top Marine & Renewables",type:"Grande École",minGrade:"good",salary:"€44–56k",pros:["Leading renewable energy & ocean engineering programme","Strong industry ties (Naval Group, EDF Renouvelables)","Good quality of life in Nantes"],cons:["Less nationally prestigious than Paris schools","Smaller alumni network","Limited CS/AI integration"]},
+    {name:"Grenoble INP – Ense3",city:"Grenoble",rank:"#1 Energy Engineering",type:"Grande École",minGrade:"good",salary:"€42–54k",pros:["France's best energy engineering specialist school","CEA and EDF labs on campus","Affordable city with excellent mountains lifestyle"],cons:["Far from Paris and major industrial hubs","Less broad than multi-domain Grandes Écoles","Colder climate — not for everyone"]},
+    {name:"IMT Atlantique",city:"Nantes / Brest",rank:"Top Energy & Environment",type:"Grande École",minGrade:"good",salary:"€42–54k",pros:["Strong energy transition and ocean tech programmes","Part of Institut Mines-Télécom — solid network","Good ties with naval and offshore industries"],cons:["Remote coastal locations","Less known than Paris schools","Smaller overall alumni network"]},
+    {name:"INSA Strasbourg",city:"Strasbourg",rank:"INSA — Civil & Environment",type:"INSA Network",minGrade:"avg",salary:"€36–46k",pros:["Direct entry from Bac","Strong civil and environmental engineering","Close to EU institutions — good for international careers"],cons:["Less competitive employment outcomes than top GE","Smaller school, fewer resources","Less well-known outside the region"]},
+    {name:"Polytech Nantes",city:"Nantes",rank:"Polytech — Environment",type:"Polytech Network",minGrade:"avg",salary:"€34–44k",pros:["Accessible via Parcoursup","Based in Nantes — strong green tech ecosystem","Practical curriculum with industry projects"],cons:["Lower prestige than major GE","Variable alumni network quality","Less specialised than dedicated env. schools"]},
+    {name:"IUT Génie Chimique",city:"Multiple cities",rank:"University Technology Inst.",type:"IUT / BUT",minGrade:"avg",salary:"€27–36k",pros:["Accessible with average Bac grades","Practical lab and industrial training","Stepping stone to engineering via licence professionnelle"],cons:["Not an engineer diploma directly","Lower salary ceiling at BUT level","Must continue to master for engineer status"]},
+    {name:"UniLaSalle Rouen",city:"Rouen",rank:"Agri-Environment Engineer",type:"Grande École",minGrade:"avg",salary:"€34–44k",pros:["Specialises in agri-environment and green chemistry","CTI-accredited engineering diploma","Accessible admission — Parcoursup or CPGE"],cons:["Niche — limited to agri/bio-environment","Smaller alumni network","Less known in mainstream industry"]},
+    {name:"ESITC Caen",city:"Caen",rank:"Civil & Environment School",type:"École d'Ingénieurs",minGrade:"low",salary:"€30–40k",pros:["Accessible with lower Bac grades","Strong focus on sustainable construction","Work-study options available"],cons:["Low national prestige","Limited to civil engineering domain","Private — higher tuition fees"]},
+    {name:"CESI Génie Industriel",city:"Multi-campus",rank:"Accessible Engineering",type:"École d'Ingénieurs",minGrade:"low",salary:"€28–38k",pros:["Very accessible admission","CTI-accredited diploma","Alternance programme — earn while you study"],cons:["Lower academic prestige","Not specific to environment","Employer recognition limited to certain sectors"]}
+  ],
+  biomedical: [
+    {name:"ESPCI Paris",city:"Paris",rank:"#1 Life Sciences Engineering",type:"Grande École",minGrade:"top",salary:"€46–60k",pros:["Best physics-chemistry-biology integration in France","4 Nobel Prize winners from its staff","Close links with top Paris hospitals and INSERM"],cons:["Extremely selective — one of hardest concours","Very research-oriented, less industry-focused","Small intake: ~100 students/year only"]},
+    {name:"École Polytechnique",city:"Palaiseau",rank:"#1 Overall — France",type:"Grande École",minGrade:"top",salary:"€60–80k",pros:["Top biosciences and bioengineering programme","World-class labs with Sanofi, L'Oréal partnerships","Exceptional alumni network in pharma and health"],cons:["Extreme selectivity (top 0.3%)","Biomedical is one track among many","Military obligation for French students"]},
+    {name:"CentraleSupélec – Biomed",city:"Gif-sur-Yvette",rank:"Top 3 — Health Engineering",type:"Grande École",minGrade:"top",salary:"€52–66k",pros:["Growing biomedical engineering programme","Strong ties with Paris-Saclay medical research","Dual degree options with medical schools"],cons:["Biomedical is a specialisation within a broader school","Very competitive prépa required","Campus outside Paris centre"]},
+    {name:"INSA Lyon – Biochimie",city:"Lyon",rank:"Top INSA — Biotech",type:"INSA Network",minGrade:"good",salary:"€38–50k",pros:["Direct entry from Bac — no prépa needed","Strong biochemistry and biomedical engineering dept","Good hospital and pharma partnerships (Sanofi, bioMérieux)"],cons:["Less prestigious than Parisian GE","Biotech track less prominent than CS or mech","Large campus — less personal support"]},
+    {name:"Grenoble INP – Phelma",city:"Grenoble",rank:"#1 Health Technology",type:"Grande École",minGrade:"good",salary:"€42–54k",pros:["Excellent micro-nano-biotech research","CEA and CHU Grenoble research partnerships","Affordable city, great quality of life"],cons:["Less nationally recognised than Paris schools","Grenoble is isolated — not for city lovers","Narrower alumni network"]},
+    {name:"INSA Toulouse – Bio-Informatique",city:"Toulouse",rank:"INSA — Bioinfo & Health",type:"INSA Network",minGrade:"good",salary:"€38–50k",pros:["Direct Bac entry — no prépa","Strong bioinformatics and biomedical data programme","Toulouse has growing pharma cluster"],cons:["Less prestigious than top GE","Lower average starting salary","Bioinformatics track is recent — smaller network"]},
+    {name:"Polytech Sorbonne – BioMéd",city:"Paris",rank:"Polytech — Biomedical",type:"Polytech Network",minGrade:"avg",salary:"€36–46k",pros:["Paris location — access to AP-HP hospital network","Part of Sorbonne University ecosystem","Accessible admission via Parcoursup"],cons:["Less prestigious than top GE","Variable quality by track","Requires prépa or good DUT for entry"]},
+    {name:"Université Paris Cité – Ingénierie Bioméd.",city:"Paris",rank:"Top University — Biomedical",type:"Université",minGrade:"avg",salary:"€34–44k",pros:["Access to AP-HP — 39 hospitals across Paris","Strong INSERM and CNRS research partnerships","Open and accessible admission"],cons:["Not a Grande École — lower employer recognition","Mostly lecture-based — less project work","Lower average starting salary than GE"]},
+    {name:"IUT Génie Biologique",city:"Multiple cities",rank:"University Technology Inst.",type:"IUT / BUT",minGrade:"avg",salary:"€26–36k",pros:["Accessible with 11–13/20 Bac grades","Practical laboratory skills from year 1","Good stepping stone via licence professionnelle"],cons:["Not a full engineer diploma","Lower salary ceiling — must continue studying","Less recognition from top employers"]},
+    {name:"ESIEE Paris – Biomedical",city:"Noisy-le-Grand",rank:"Engineer School — BioMed",type:"École d'Ingénieurs",minGrade:"avg",salary:"€36–46k",pros:["CTI-accredited diploma","Strong ties with GE Healthcare and medical device firms","Accessible from CPGE or DUT"],cons:["Located in outer Paris suburb","Less prestigious than top GE","Smaller alumni network"]},
+    {name:"ICAM Toulouse",city:"Toulouse",rank:"Generalist — Accessible",type:"École d'Ingénieurs",minGrade:"low",salary:"€32–42k",pros:["Accessible with lower grades","Work-study (alternance) available","CTI-accredited engineering diploma"],cons:["Generalist — biomedical is only a minor track","Lower academic prestige","Private — higher tuition fees"]},
+    {name:"ESIL Marseille",city:"Marseille",rank:"Health Engineering — South",type:"École d'Ingénieurs",minGrade:"low",salary:"€28–38k",pros:["Accessible admission requirements","Based in Marseille — growing biotech hub","CTI-accredited diploma"],cons:["Low national prestige","Limited to regional employer reach","Private — fees can be high"]}
+  ]
+};
+
+const foreignBacAdvice = {
+  aerospace: {
+    integration:"French aerospace schools are very international — ISAE-SUPAERO has ~30% foreign students. English is widely used in labs. However, French language is required for prépa and most administration.",
+    procedure:[
+      "Apply via Campus France — the official portal for international students",
+      "DAP (Demande d'Admission Préalable) required for most universities",
+      "Some Grandes Écoles accept direct applications — check each school's 'admissions internationales' page",
+      "IB Diploma (36+ points) or A-Levels (AAB+) are well-recognised",
+      "TOEFL (90+) or IELTS (6.5+) required if English-taught; TCF/DELF B2 for French programmes",
+      "Consider a 'mise à niveau' year if your maths background is below French MPSI level"
+    ]
+  },
+  digital: {
+    integration:"CS is the most internationally open field. Many top schools (Polytechnique, CentraleSupélec) offer English-taught Master's tracks. The French Tech startup scene is very welcoming to international talent.",
+    procedure:[
+      "Apply via Campus France for visa (VLS-TS student visa)",
+      "Many schools have specific international admission tracks — no prépa required",
+      "EPITA and several private schools have full English programmes",
+      "Demonstrate coding skills with GitHub portfolio or competitive programming (Codeforces, LeetCode)",
+      "SAT Math 750+ or IB Maths AA HL 6+ is typically required",
+      "French B1 is helpful; B2 strongly recommended for non-English programmes"
+    ]
+  },
+  environment: {
+    integration:"Environmental engineering attracts many international students due to its global relevance. Schools like INSA have strong international partnerships. Most Master's programmes are in English.",
+    procedure:[
+      "INSA schools have a specific international admission track via admission-postbac.fr",
+      "A-Levels in Maths, Chemistry, and Biology are very well-recognised",
+      "IB score 32+ with sciences is generally accepted",
+      "Apply for the Eiffel Excellence Scholarship (up to €1,181/month) — very competitive",
+      "French B2 is needed for most undergrad programmes; Master's can be in English",
+      "Network at COP and environmental conferences to connect with French school representatives"
+    ]
+  },
+  biomedical: {
+    integration:"Biomedical engineering for foreign students is more complex — many programmes require French. However, research Master's and PhD positions are very open to international profiles with strong backgrounds.",
+    procedure:[
+      "DELF B2 or DALF C1 is often mandatory for health-adjacent programmes",
+      "ESPCI has a specific international recruitment for top science graduates",
+      "Consider applying to the Master's track (Bac+5) directly if you already hold a Bachelor's",
+      "INSERM and Institut Pasteur offer English-language PhD and research internship programmes",
+      "Campus France interview is mandatory for most nationalities",
+      "Health-related programmes may require equivalence certificates from your home country's degree"
+    ]
+  }
+};
+
+function showResults() {
+  document.getElementById('quiz').style.display = 'none';
+  const el = document.getElementById('results'); el.style.display = 'block';
+  quizProfile = getProfile(answers);
+  gradeLevel = getGradeLevel(answers);
+  const p = profiles[quizProfile];
+  const allSchoolsForProfile = schoolDetails[quizProfile];
+  const isForeign = bacType === 'foreign';
+
+  // Grade-level filtering logic
+  // top=17+, good=14-17, avg=11-14, low=<11
+  const gradeOrder = {top:3, good:2, avg:1, low:0};
+  const studentLevel = gradeOrder[gradeLevel==='top'?'top':gradeLevel==='good'?'good':'avg'];
+
+  // Grade banner message
+  const gradeBanners = {
+    top: {label:"🏆 Excellent Academic Profile (17+/20 or A/A*)", color:"#2d6a4f", bg:"rgba(45,106,79,.12)", msg:"Your grades open the doors to the most selective Grandes Écoles. All schools below are accessible to you — focus on the top tier first."},
+    good: {label:"📈 Good Academic Profile (14–17/20 or B/A)", color:"#1a3a6b", bg:"rgba(26,58,107,.1)", msg:"You have a strong profile for most engineering schools. The top tier requires a competitive prépa, but you have excellent options across all levels."},
+    average: {label:"📘 Average Academic Profile (11–14/20 or C)", color:"#c9a84c", bg:"rgba(201,168,76,.12)", msg:"Schools in the 'Accessible' and 'Good' tiers are your best immediate options. Many great engineers started here — focus on a solid IUT or INSA path."}
+  };
+  const banner = gradeBanners[gradeLevel] || gradeBanners.average;
+
+  document.getElementById('profileBadge').textContent = p.badge + (isForeign ? ' · 🌍 International' : ' · 🇫🇷 French Bac');
+  document.getElementById('resultsTitle').textContent = p.title;
+  document.getElementById('resultsSubtitle').textContent = p.subtitle;
+
+  // Path cards
+  document.getElementById('pathCards').innerHTML = p.paths.map(c=>`<div class="path-card"><div class="card-top" style="background:${c.color}"></div><div class="card-body"><div class="card-match">${c.match}</div><div class="card-title">${c.title}</div><div class="card-desc">${glossLink(c.desc)}</div><div class="card-tags">${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div></div>`).join('');
+
+  // Grade banner
+  const gradeBannerHtml = `
+    <div style="background:${banner.bg};border:1px solid ${banner.color}33;border-radius:8px;padding:1.2rem 1.6rem;margin-bottom:2.5rem;display:flex;gap:1rem;align-items:flex-start;">
+      <div style="flex:1;">
+        <div style="font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.15em;color:${banner.color};text-transform:uppercase;margin-bottom:.4rem;">${banner.label}</div>
+        <p style="font-size:.88rem;color:var(--gray);line-height:1.65;margin:0">${banner.msg}</p>
+      </div>
+    </div>`;
+
+  // Sort schools into tiers based on student level
+  const tierDefs = [
+    {key:'top',  label:'🥇 Highly Selective — Top Grandes Écoles', desc:'Requires 17+/20 and a competitive CPGE prépa (2 years post-Bac).', color:'#c9a84c'},
+    {key:'good', label:'🥈 Competitive — Good Grandes Écoles & INSA', desc:'Requires 14–17/20. CPGE or direct entry via Parcoursup.', color:'#1a3a6b'},
+    {key:'avg',  label:'🥉 Accessible — Polytech, IUT & Parallel Routes', desc:'Requires 11–14/20. Accessible via Parcoursup or DUT/BUT.', color:'#2d6a4f'},
+    {key:'low',  label:'✅ Open Access — Alternance & Private Schools', desc:'Accessible with any Bac. Work-study and private school routes.', color:'#6b7280'},
+  ];
+
+  // Group schools by tier
+  const grouped = {};
+  tierDefs.forEach(t => { grouped[t.key] = allSchoolsForProfile.filter(s => s.minGrade === t.key); });
+
+  // Determine which tiers to highlight vs dim based on student level
+  const tierVisibility = {top: studentLevel>=3, good: studentLevel>=2, avg: true, low: true};
+  const tierRecommended = {top: studentLevel>=3, good: studentLevel>=2 && studentLevel<3, avg: studentLevel<2, low: false};
+
+  let schoolsHtml = gradeBannerHtml;
+
+  tierDefs.forEach(tier => {
+    const schools = grouped[tier.key];
+    if (!schools || schools.length === 0) return;
+    const isReachable = tierVisibility[tier.key];
+    const isRecommended = tierRecommended[tier.key];
+    const opacity = isReachable ? '1' : '0.45';
+
+    schoolsHtml += `
+      <div style="margin-bottom:2.5rem;opacity:${opacity}">
+        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid ${tier.color}22;">
+          <span style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--navy);">${tier.label}</span>
+          ${isRecommended ? '<span style="background:rgba(201,168,76,.15);color:var(--gold);border-radius:3px;padding:.2rem .55rem;font-family:\'DM Mono\',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;">★ Recommended for your profile</span>' : ''}
+          ${!isReachable ? '<span style="background:rgba(107,114,128,.1);color:var(--gray);border-radius:3px;padding:.2rem .55rem;font-family:\'DM Mono\',monospace;font-size:.62rem;">Improve grades to unlock</span>' : ''}
+        </div>
+        <p style="font-size:.8rem;color:var(--gray);margin-bottom:1rem;font-family:'DM Mono',monospace;letter-spacing:.05em;">${tier.desc}</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;">
+          ${schools.map(s => `
+            <div class="school-card" style="padding:1.4rem;border-left:3px solid ${tier.color};">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;">
+                <div>
+                  <div class="school-rank">${s.rank}</div>
+                  <div class="school-name">${s.name}</div>
+                  <div class="school-city">📍 ${s.city}</div>
+                </div>
+                <div style="text-align:right;flex-shrink:0;margin-left:.8rem;">
+                  <span class="school-type">${s.type}</span>
+                  <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--gold);margin-top:.4rem;font-weight:600;">${s.salary}</div>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.8rem;">
+                <div style="background:rgba(45,106,79,.08);border-radius:5px;padding:.6rem;">
+                  <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:#2d6a4f;letter-spacing:.12em;margin-bottom:.35rem;text-transform:uppercase;">✓ Strengths</div>
+                  ${s.pros.map(p=>`<div style="font-size:.76rem;color:var(--gray);line-height:1.5;margin-bottom:.15rem;">• ${glossLink(p)}</div>`).join('')}
+                </div>
+                <div style="background:rgba(193,57,43,.06);border-radius:5px;padding:.6rem;">
+                  <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--red);letter-spacing:.12em;margin-bottom:.35rem;text-transform:uppercase;">⚠ Consider</div>
+                  ${s.cons.map(c=>`<div style="font-size:.76rem;color:var(--gray);line-height:1.5;margin-bottom:.15rem;">• ${glossLink(c)}</div>`).join('')}
+                </div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('schoolsGrid').innerHTML = schoolsHtml;
+  // Remove the old grid wrapper padding since we handle layout ourselves
+  document.getElementById('schoolsGrid').style.display = 'block';
+
+  // Clean up any previously injected dynamic sections from a prior quiz run
+  const oldComp = document.querySelector('#schoolsGrid + div[data-dynamic]');
+  if (oldComp) oldComp.remove();
+  const oldForeign = document.querySelector('.schools-section + div[data-dynamic]');
+  if (oldForeign) oldForeign.remove();
+
+  // Quick comparison table (top 6 schools reachable by student)
+  const reachableSchools = allSchoolsForProfile.filter(s => gradeOrder[s.minGrade] <= studentLevel+1).slice(0, 6);
+  const compHtml = `<div data-dynamic="1" style="background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:8px;padding:2rem;margin-bottom:2rem;">
+    <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:1.5rem;">Quick Comparison — Schools in your range</div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:.82rem;">
+        <thead><tr>${['School','City','Type','Avg. Salary','Entry Level'].map(h=>`<th style="background:var(--navy);color:rgba(255,255,255,.7);font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.7rem .9rem;text-align:left;white-space:nowrap">${h}</th>`).join('')}</tr></thead>
+        <tbody>${reachableSchools.map((s,i)=>`<tr style="${i%2===0?'background:rgba(0,0,0,.02)':''}">
+          <td style="padding:.7rem .9rem;font-weight:600;color:var(--navy)">${s.name}</td>
+          <td style="padding:.7rem .9rem;color:var(--gray)">${s.city}</td>
+          <td style="padding:.7rem .9rem"><span style="background:rgba(193,57,43,.08);color:var(--red);border-radius:3px;padding:.2rem .5rem;font-size:.68rem;font-family:'DM Mono',monospace">${s.type}</span></td>
+          <td style="padding:.7rem .9rem;color:var(--gold);font-weight:700">${s.salary}</td>
+          <td style="padding:.7rem .9rem;font-family:'DM Mono',monospace;font-size:.72rem;color:var(--gray)">${{top:'17+/20 · Top prépa',good:'14+/20 · Prépa/INSA',avg:'11+/20 · IUT/Polytech',low:'All levels'}[s.minGrade]}</td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>
+  </div>`;
+
+  document.getElementById('schoolsGrid').insertAdjacentHTML('afterend', compHtml);
+
+  // Foreign bac section
+  let foreignHtml = '';
+  if (isForeign) {
+    const fAdv = foreignBacAdvice[quizProfile];
+    foreignHtml = `
+      <div data-dynamic="1" class="fade-in-up" style="margin-bottom:4rem;">
+        <h3 class="section-title" style="color:var(--navy);margin-bottom:1.5rem;">🌍 International Student Guidance</h3>
+        <div style="background:var(--navy);border-radius:10px;padding:2.5rem;margin-bottom:1.5rem;">
+          <div style="font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;">Integration Overview</div>
+          <p style="color:rgba(255,255,255,.65);line-height:1.8;font-size:.92rem;">${fAdv.integration}</p>
+        </div>
+        <div style="background:var(--card-bg);border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:2.5rem;">
+          <div style="font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:1.2rem;">Step-by-Step Application Procedure</div>
+          ${fAdv.procedure.map((step,i)=>`
+            <div style="display:flex;gap:1rem;margin-bottom:1rem;align-items:flex-start;">
+              <div style="width:26px;height:26px;min-width:26px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.7rem;font-weight:700;color:var(--navy)">${i+1}</div>
+              <p style="color:var(--gray);font-size:.88rem;line-height:1.65;margin-top:.2rem">${step}</p>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  const schoolsSec = document.querySelector('.schools-section');
+  schoolsSec.insertAdjacentHTML('afterend', foreignHtml || '');
+
+  document.getElementById('timeline').innerHTML = p.timeline.map(t=>`<div class="tl-item"><div class="tl-dot"></div><div class="tl-year">${t.year}</div><div class="tl-title">${glossLink(t.title)}</div><div class="tl-desc">${glossLink(t.desc)}</div></div>`).join('');
+  document.getElementById('tipsGrid').innerHTML = p.tips.map(t=>`<div class="tip-card"><div class="tip-icon">${t.icon}</div><div class="tip-title">${t.title}</div><div class="tip-text">${glossLink(t.text)}</div></div>`).join('');
+  refreshSectionsFromQuiz();
+  el.scrollIntoView({behavior:'smooth'}); initObserver();
+}
+
+// ══════════════════════════════════════
+// REFRESH ALL SECTIONS FROM QUIZ ANSWERS
+// ══════════════════════════════════════
+function refreshSectionsFromQuiz() {
+  if (!quizProfile || !answers.length) return;
+
+  // ── Map quizProfile to salary field key ──
+  const fieldMap = {aerospace:'aerospace', digital:'digital', environment:'energy', biomedical:'biomedical'};
+  const salField = fieldMap[quizProfile] || 'aerospace';
+
+  // ── Map grade to school tier ──
+  const tierMap = {top:'top', good:'mid', average:'uni'};
+  const salTier = tierMap[gradeLevel] || 'mid';
+
+  // ── Map career/location answers ──
+  const wantsAbroad = answers.includes('abroad');
+  const wantsPhD    = answers.includes('phd');
+  const wantsStartup= answers.includes('startup');
+  const wantsParis  = answers.includes('loc_paris');
+  const salLoc      = wantsAbroad ? 'abroad' : wantsParis ? 'paris' : 'regional';
+
+  // ── Salary: pre-fill with quiz values ──
+  const salFieldEl = document.getElementById('salField');
+  const salTierEl  = document.getElementById('salTier');
+  const salLocEl   = document.getElementById('salLoc');
+  if (salFieldEl) salFieldEl.value = salField;
+  if (salTierEl)  salTierEl.value  = salTier;
+  if (salLocEl)   salLocEl.value   = salLoc;
+  updateSalary();
+
+  // Show a small "pre-filled from your quiz" note
+  const salNote = document.getElementById('salQuizNote');
+  if (salNote) salNote.style.display = 'block';
+
+  // ── Comparator: pre-select schools matching the student's field & grade ──
+  const gradeOrder = {top:3, good:2, avg:1, low:0};
+  const studentLevel = gradeOrder[gradeLevel==='top'?'top':gradeLevel==='good'?'good':'avg'];
+  const fieldKeyword = {aerospace:'Aerospace', digital:'CS', environment:'Civil', biomedical:'Life'}[quizProfile] || '';
+
+  const recommended = new Set();
+  allSchools.forEach((s, i) => {
+    const matchesDomain = s.domain.includes(fieldKeyword) || s.domain === 'Multi';
+    const matchesTier   = gradeOrder[s.tier==='top'?'top':s.tier==='mid'?'good':'avg'] <= studentLevel + 1;
+    if (matchesDomain && matchesTier && recommended.size < 4) recommended.add(i);
+  });
+  // fallback: if fewer than 2 matched, add top schools
+  if (recommended.size < 2) { recommended.add(0); recommended.add(1); recommended.add(2); }
+  selectedSchools = recommended;
+  buildComparator();
+
+  // ── Calendar: highlight relevant concours based on grade/path ──
+  buildCalendarForProfile();
+
+  // ── Checklist: surface relevant items & add profile-specific tasks ──
+  buildChecklistForProfile();
+
+  // ── Section headers: personalise with student name/profile ──
+  const salTitle = document.querySelector('#salary .section-title');
+  if (salTitle) salTitle.textContent = `Your ${quizProfile.charAt(0).toUpperCase()+quizProfile.slice(1)} Engineer Salary`;
+
+  const compTitle = document.querySelector('#comparator .section-title');
+  if (compTitle) compTitle.textContent = `Schools Matching Your Profile`;
+
+  const calTitle = document.querySelector('#calendar-section .section-title');
+  if (calTitle) calTitle.textContent = gradeLevel==='top'
+    ? 'Key Dates — Top Concours (Your Level)'
+    : gradeLevel==='good'
+    ? 'Key Dates — INSA & Concours Calendar'
+    : 'Key Dates — Parcoursup & IUT Calendar';
+}
+
+// ── Profile-aware calendar ──
+const calendarData = {
+  top: [
+    {month:"Apr",day:"7",year:"2026",title:"Concours Écrit — Centrale-Supélec",desc:"Written exams for Centrale-Supélec Group. MPSI/MP track required."},
+    {month:"Apr",day:"14",year:"2026",title:"Concours Écrit — Mines-Ponts",desc:"Written exams for the elite Mines-Ponts group."},
+    {month:"May",day:"5",year:"2026",title:"Concours Polytechnique (X)",desc:"Written exams for École Polytechnique entrance — the hardest concours."},
+    {month:"Jun",day:"3",year:"2026",title:"Baccalauréat — Épreuves Écrites",desc:"National Bac written exams. Stay focused."},
+    {month:"Jun",day:"18",year:"2026",title:"Oraux — Centrale Group",desc:"Oral rounds for admitted candidates, Centrale-Supélec & Mines."},
+    {month:"Jun",day:"25",year:"2026",title:"Oraux — Polytechnique",desc:"Oral examinations for X shortlisted candidates."},
+    {month:"Jul",day:"2",year:"2026",title:"Results & School Choices",desc:"Schools send admission offers. Choose your Grande École."},
+    {month:"Sep",day:"1",year:"2026",title:"Rentrée — Grande École",desc:"First day at your engineering school. Bon courage !"},
+  ],
+  good: [
+    {month:"Jan",day:"15",year:"2026",title:"Parcoursup Opens",desc:"Apply for INSA, Polytech, and CPGE on Parcoursup."},
+    {month:"Mar",day:"20",year:"2026",title:"Parcoursup Deadline",desc:"Final deadline to submit your application — don't miss it."},
+    {month:"Apr",day:"7",year:"2026",title:"Concours Écrit — Centrale-Supélec",desc:"If you're in CPGE, written exams for the Centrale group."},
+    {month:"Apr",day:"14",year:"2026",title:"Concours CCINP",desc:"Written exams for the CCINP group — INSA, CPE, Polytech."},
+    {month:"Jun",day:"3",year:"2026",title:"Baccalauréat — Épreuves Écrites",desc:"National Bac written exams."},
+    {month:"Jun",day:"20",year:"2026",title:"INSA Oral Interviews",desc:"Oral interviews for INSA direct-from-Bac admissions."},
+    {month:"Jul",day:"2",year:"2026",title:"Parcoursup Offers",desc:"Schools send admission offers via Parcoursup."},
+    {month:"Sep",day:"1",year:"2026",title:"Rentrée",desc:"First day at your engineering school or CPGE."},
+  ],
+  average: [
+    {month:"Jan",day:"15",year:"2026",title:"Parcoursup Opens",desc:"Apply for IUT, BTS, Polytech and licence on Parcoursup."},
+    {month:"Feb",day:"10",year:"2026",title:"BUT / IUT Applications Due",desc:"Deadline for most IUT Génie programmes on Parcoursup."},
+    {month:"Mar",day:"20",year:"2026",title:"Parcoursup Final Deadline",desc:"Last chance to submit. Include a strong lettre de motivation."},
+    {month:"Jun",day:"3",year:"2026",title:"Baccalauréat — Épreuves Écrites",desc:"National Bac. A good result can improve your Parcoursup offers."},
+    {month:"Jun",day:"15",year:"2026",title:"IUT Selection Results",desc:"First IUT/BUT admission results published on Parcoursup."},
+    {month:"Jul",day:"2",year:"2026",title:"Final Parcoursup Offers",desc:"Accept your offer before the deadline."},
+    {month:"Sep",day:"1",year:"2026",title:"Rentrée — IUT / BUT",desc:"Start your 3-year BUT technical programme."},
+    {month:"Sep",day:"15",year:"2026",title:"Alternance Contracts",desc:"Last chance to sign an apprenticeship contract for work-study."},
+  ]
+};
+
+function buildCalendarForProfile() {
+  const level = gradeLevel === 'top' ? 'top' : gradeLevel === 'good' ? 'good' : 'average';
+  const evts  = calendarData[level];
+  const now   = new Date();
+  document.getElementById('eventsList').innerHTML = evts.map(e => {
+    const eDate = new Date(`${e.month} ${e.day} ${e.year}`);
+    const diff  = Math.ceil((eDate - now) / (1000*60*60*24));
+    let badge = '', bClass = '';
+    if (diff < 0)       { badge = 'Past';             bClass = 'past'; }
+    else if (diff < 30) { badge = `In ${diff} days`;  bClass = 'soon'; }
+    else if (diff < 90) { badge = `In ${Math.ceil(diff/7)} weeks`; bClass = 'soon'; }
+    else                { badge = `${e.month} ${e.year}`; bClass = ''; }
+    return `<div class="event-item">
+      <div class="event-date-box">
+        <div class="event-month">${e.month}</div>
+        <div class="event-day">${e.day}</div>
+        <div class="event-year">${e.year}</div>
+      </div>
+      <div class="event-info"><h4>${e.title}</h4><p>${e.desc}</p></div>
+      <div class="countdown-badge ${bClass}">${badge}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Profile-aware checklist ──
+const checklistByProfile = {
+  aerospace: {
+    top:   ["Study MPSI/MP maths at prépa level","Practise annales for Centrale-Supélec and Mines-Ponts","Learn CATIA or SolidWorks CAD software early","Visit ISAE-SUPAERO open day in Toulouse","Research internships at Airbus or Safran Student Lab"],
+    good:  ["Apply to INSA Toulouse via Parcoursup","Practise annales for CCINP concours","Build a basic CAD or mechanics project","Contact INSA student ambassadors for advice","Research apprenticeship contracts in aerospace SMEs"],
+    average:["Apply for IUT Génie Mécanique on Parcoursup","Write a strong lettre de motivation about your passion for aerospace","Research licence pro pathways after BUT","Look into CESI alternance engineering programmes","Visit a local aerospace company open day"]
+  },
+  digital: {
+    top:   ["Practise LeetCode and competitive programming daily","Contribute to an open-source project on GitHub","Study MPSI/MP maths & computer science at prépa level","Apply for Google Summer of Code or similar","Research AI labs at Polytechnique and CentraleSupélec"],
+    good:  ["Build a portfolio project (web app, game, ML model)","Apply to EPITA or ENSIMAG via Parcoursup/concours","Learn Python, then a second language (Java or C++)","Join a hackathon or coding competition","Research internships at French startups (Mistral, Doctolib)"],
+    average:["Apply for IUT Informatique on Parcoursup","Start a free Python course (France-IOI, OpenClassrooms)","Build one complete project to show employers","Explore alternance CS programmes at CESI or 3iL","Join a local coding club or Coding Goûter"]
+  },
+  environment: {
+    top:   ["Study PCSI/PC or MPSI prépa track","Practise Mines-Ponts and Centrale annales","Research internship at EDF Renouvelables or ADEME","Learn GIS and environmental modelling tools","Apply for the Eiffel Scholarship if international"],
+    good:  ["Apply to INSA Lyon GEN dept via Parcoursup","Research double degrees in environmental management","Follow ADEME and ENGIE graduate programmes","Study the basics of LCA (Life Cycle Assessment)","Learn QGIS or ArcGIS for environmental mapping"],
+    average:["Apply for IUT Génie Chimique or Génie Civil","Research licence pro in environmental management","Follow news on France's energy transition policy","Visit a local waste management or water treatment plant","Look into work-study at Veolia or Suez"]
+  },
+  biomedical: {
+    top:   ["Study BCPST prépa or MPSI/PC track","Research internship at Sanofi, bioMérieux or INSERM","Learn Python for bioinformatics (BioPython, pandas)","Attend a hospital or MedTech open day","Apply for ESPCI Paris — research their specific concours"],
+    good:  ["Apply to INSA Lyon Biochimie via Parcoursup","Volunteer or shadow at a hospital engineering dept","Start a basic R or Python course for health data","Research graduate programmes at Grenoble INP Phelma","Follow France's Plan Innovation Santé 2030"],
+    average:["Apply for IUT Génie Biologique on Parcoursup","Research licence pro in medical devices or pharma quality","Visit a local biotech company or pharma SME","Learn the basics of EU medical device regulation (MDR)","Explore alternance at ICAM or ESIL"]
+  }
+};
+
+function buildChecklistForProfile() {
+  if (!quizProfile) return;
+  const level = gradeLevel==='top'?'top':gradeLevel==='good'?'good':'average';
+  const profileItems = checklistByProfile[quizProfile]?.[level] || [];
+
+  // Build combined checklist: generic categories + profile-specific category prepended
+  const profileCat = {
+    cat: `🎯 Personalised: ${quizProfile.charAt(0).toUpperCase()+quizProfile.slice(1)} — ${level==='top'?'High Achiever':level==='good'?'Good Profile':'Building Up'}`,
+    items: profileItems
+  };
+  const combined = [profileCat, ...checklistData];
+
+  const saved = JSON.parse(localStorage.getItem('checklist') || '{}');
+  checkState = saved;
+  const wrap = document.getElementById('checkCategories');
+  wrap.innerHTML = combined.map((cat, ci) => `
+    <div class="check-cat">
+      <div class="check-cat-header" onclick="toggleCat(${ci})">
+        <span class="check-cat-icon">${cat.cat.split(' ')[0]}</span>
+        <span class="check-cat-title">${cat.cat.slice(cat.cat.indexOf(' ')+1)}</span>
+        <span class="check-cat-count" id="catCount${ci}"></span>
+      </div>
+      <div class="check-items" id="catItems${ci}">
+        ${cat.items.map((item, ii) => {
+          const key = `${ci}-${ii}`;
+          const checked = checkState[key];
+          return `<div class="check-item${checked?' done':''}" id="ci${ci}-${ii}">
+            <div class="check-box${checked?' checked':''}" onclick="toggleCheck(${ci},${ii})" id="cb${ci}-${ii}"></div>
+            <span class="check-label">${glossLink(item)}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+  updateProgress();
+}
+
+function restartQuiz() {
+  current = 0; answers = []; quizProfile = null; gradeLevel = null; bacType = null; quizStarted = false;
+  document.querySelectorAll('[data-dynamic]').forEach(el => el.remove());
+  document.getElementById('schoolsGrid').style.display = '';
+  const salNote = document.getElementById('salQuizNote');
+  if (salNote) salNote.style.display = 'none';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  showBacSelector();
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
+
+function exportPDF(){
+  if(!quizProfile){showToast('Complete the quiz first!');return;}
+  const p=profiles[quizProfile];
+  const schools=schoolDetails[quizProfile]||[];
+  const isForeign=bacType==='foreign';
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>My Engineering Path — IngénieurFrance</title>
+  <style>body{font-family:Georgia,serif;max-width:750px;margin:40px auto;color:#111;padding:2rem;}
+  h1{color:#0a0f2e;font-size:2rem;} h2{color:#1a3a6b;margin-top:2rem;} h3{color:#c9a84c;}
+  .tag{display:inline-block;background:#eee;padding:2px 8px;border-radius:3px;font-size:.8rem;margin:2px;font-family:monospace;}
+  .school{border:1px solid #ddd;padding:1rem;margin:.5rem 0;border-radius:4px;}
+  .pros{color:#2d6a4f;font-size:.85rem;} .cons{color:#c1392b;font-size:.85rem;}
+  .step{border-left:3px solid #c9a84c;padding-left:1rem;margin:1rem 0;}
+  .header{background:#0a0f2e;color:#fff;padding:2rem;border-radius:8px;margin-bottom:2rem;}
+  .header h1{color:#c9a84c;} .header p{color:rgba(255,255,255,.6);}
+  .intl{background:#f0f8ff;border:1px solid #1a3a6b;padding:1.5rem;border-radius:8px;margin-top:1rem;}
+  footer{margin-top:3rem;padding-top:1rem;border-top:1px solid #ddd;color:#999;font-size:.8rem;}
+  </style></head><body>
+  <div class="header"><h1>IngénieurFrance</h1><p>Your personalised engineering path · ${isForeign?'International Student':'French Bac'}</p></div>
+  <h1>${p.title}</h1><p>${p.subtitle}</p>
+  <h2>Recommended Fields</h2>${p.paths.map(c=>`<div class="school"><strong>${c.match} — ${c.title}</strong><br>${c.desc}<br>${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`).join('')}
+  <h2>Top Schools for You</h2>${schools.map(s=>`<div class="school"><strong>${s.name}</strong> — ${s.city}<br>${s.rank} · ${s.type}<br><span class="pros">✓ ${s.pros.join(' · ')}</span><br><span class="cons">⚠ ${s.cons.join(' · ')}</span></div>`).join('')}
+  ${isForeign&&foreignBacAdvice[quizProfile]?`<h2>🌍 International Student Guidance</h2><div class="intl"><p>${foreignBacAdvice[quizProfile].integration}</p><h3>Application Steps</h3><ol>${foreignBacAdvice[quizProfile].procedure.map(s=>`<li style="margin-bottom:.5rem">${s}</li>`).join('')}</ol></div>`:''}
+  <h2>Your Roadmap</h2>${p.timeline.map(t=>`<div class="step"><strong>${t.year} — ${t.title}</strong><br>${t.desc}</div>`).join('')}
+  <h2>Key Tips</h2>${p.tips.map(t=>`<div class="step">${t.icon} <strong>${t.title}:</strong> ${t.text}</div>`).join('')}
+  <footer>Generated by IngénieurFrance — Student Orientation Guide | ingenieurFrance.fr</footer>
+  </body></html>`);
+  win.document.close();
+  setTimeout(()=>win.print(),500);
+}
+
+// ══════════════════════════════════════
+// ══════════════════════════════════════
+// GLOSS LINK — wrap jargon terms as links to glossary
+// ══════════════════════════════════════
+const glossTermMap = {
+  'baccalauréat':0,'bac':0,
+  'cpge':1,'prépa':1,'classe préparatoire':1,'prepa':1,
+  'concours':2,
+  'grande école':3,'grandes écoles':3,
+  'cti':4,
+  'parcoursup':5,
+  "diplôme d'ingénieur":6,
+  'stage':7,'stages':7,
+  'iut':8,'but':8,
+  'mention':9,
+  'insa':10,
+  'annales':11,
+};
+
+function glossLink(text) {
+  const keys = Object.keys(glossTermMap).sort((a,b) => b.length - a.length);
+  const pattern = new RegExp('\\b(' + keys.map(k => k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|') + ')\\b', 'gi');
+  return text.replace(pattern, (match) => {
+    const idx = glossTermMap[match.toLowerCase()];
+    if (idx === undefined) return match;
+    return `<a href="#glossary" onclick="event.stopPropagation();openGlossItem(${idx});return false;" style="color:var(--gold);text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer;font-weight:500;">${match}</a>`;
+  });
+}
+
+function openGlossItem(idx) {
+  setTimeout(() => {
+    const el = document.getElementById(`gi${idx}`);
+    if (!el) return;
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    if (!el.classList.contains('open')) el.classList.add('open');
+    el.style.borderColor = 'rgba(201,168,76,.6)';
+    setTimeout(() => { el.style.borderColor = ''; }, 2200);
+  }, 380);
+}
+
+// ══════════════════════════════════════
+// COMPARATOR
+// ══════════════════════════════════════
+let selectedSchools = new Set([0,1,2]);
+function buildComparator(){
+  const chips=document.getElementById('schoolChips');
+  chips.innerHTML=allSchools.map((s,i)=>`<span class="school-chip${selectedSchools.has(i)?' active':''}" onclick="toggleSchool(${i})">${s.name}</span>`).join('');
+  renderTable();
+}
+function toggleSchool(i){
+  if(selectedSchools.has(i)){if(selectedSchools.size>1)selectedSchools.delete(i);}
+  else{if(selectedSchools.size<4)selectedSchools.add(i);else{showToast('Max 4 schools at a time');return;}}
+  buildComparator();
+}
+function renderTable(){
+  const sel=[...selectedSchools].map(i=>allSchools[i]);
+  const t=document.getElementById('compTable');
+  const rows=[
+    {label:'City',key:'city',fmt:s=>s.city},
+    {label:'Domain',key:'domain',fmt:s=>`<span class="badge-type">${s.domain}</span>`},
+    {label:'Type',key:'type',fmt:s=>s.type},
+    {label:'Ranking',key:'ranking',fmt:s=>`<strong>${s.ranking}</strong>`},
+    {label:'Selectivity',key:'sel',fmt:s=>`<div class="score-bar"><div class="bar-track"><div class="bar-fill" style="width:${s.selectivity}%"></div></div><span style="font-size:.8rem;color:var(--gray)">${s.selectivity}%</span></div>`},
+    {label:'Avg. Starting Salary',key:'salary',fmt:s=>`<strong style="color:var(--gold)">€${s.salary.toLocaleString()}</strong>`},
+    {label:'Specialities',key:'spec',fmt:s=>`<span style="font-size:.82rem;color:var(--gray)">${s.specialities}</span>`},
+  ];
+  t.innerHTML=`<thead><tr><th>Criterion</th>${sel.map(s=>`<th>${s.name}</th>`).join('')}</tr></thead>
+  <tbody>${rows.map(r=>`<tr><td><strong style="font-size:.82rem;font-family:'DM Mono',monospace;letter-spacing:.05em">${r.label}</strong></td>${sel.map(s=>`<td>${r.fmt(s)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+}
+
+// ══════════════════════════════════════
+// SALARY CALCULATOR
+// ══════════════════════════════════════
+function updateSalary(){
+  const field=document.getElementById('salField').value;
+  const tier=document.getElementById('salTier').value;
+  const exp=parseInt(document.getElementById('salExp').value);
+  const loc=document.getElementById('salLoc').value;
+  const base=salaryData.base[field];
+  const calc=Math.round(base * salaryData.tier[tier] * salaryData.exp(exp) * salaryData.loc[loc]);
+  const low=Math.round(calc*0.88);
+  const high=Math.round(calc*1.15);
+  document.getElementById('salAmount').textContent='€'+calc.toLocaleString();
+  document.getElementById('salDesc').textContent=`Estimated gross annual salary · ${exp===0?'Entry level':exp+' years experience'}`;
+  document.getElementById('salRangeText').textContent=`Typical range: €${(low/1000).toFixed(0)}k – €${(high/1000).toFixed(0)}k`;
+}
+
+// ══════════════════════════════════════
+// CALENDAR
+// ══════════════════════════════════════
+function buildCalendar(){
+  // Before quiz: show generic calendar. After quiz: refreshSectionsFromQuiz handles it.
+  if (quizProfile) { buildCalendarForProfile(); return; }
+  const genericEvents = calendarData.good; // sensible default
+  const now=new Date();
+  document.getElementById('eventsList').innerHTML=genericEvents.map(e=>{
+    const eDate=new Date(`${e.month} ${e.day} ${e.year}`);
+    const diff=Math.ceil((eDate-now)/(1000*60*60*24));
+    let badge='',bClass='';
+    if(diff<0){badge=`Past`;bClass='past';}
+    else if(diff<30){badge=`In ${diff} days`;bClass='soon';}
+    else if(diff<90){badge=`In ${Math.ceil(diff/7)} weeks`;bClass='soon';}
+    else{badge=`${e.month} ${e.year}`;bClass='';}
+    return `<div class="event-item">
+      <div class="event-date-box">
+        <div class="event-month">${e.month}</div>
+        <div class="event-day">${e.day}</div>
+        <div class="event-year">${e.year}</div>
+      </div>
+      <div class="event-info"><h4>${e.title}</h4><p>${e.desc}</p></div>
+      <div class="countdown-badge ${bClass}">${badge}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════
+// CHECKLIST
+// ══════════════════════════════════════
+let checkState={};
+function buildChecklist(){
+  const saved=JSON.parse(localStorage.getItem('checklist')||'{}');
+  checkState=saved;
+  const wrap=document.getElementById('checkCategories');
+  wrap.innerHTML=checklistData.map((cat,ci)=>`
+    <div class="check-cat">
+      <div class="check-cat-header" onclick="toggleCat(${ci})">
+        <span class="check-cat-icon">${cat.cat.split(' ')[0]}</span>
+        <span class="check-cat-title">${cat.cat.slice(cat.cat.indexOf(' ')+1)}</span>
+        <span class="check-cat-count" id="catCount${ci}"></span>
+      </div>
+      <div class="check-items" id="catItems${ci}">
+        ${cat.items.map((item,ii)=>{
+          const key=`${ci}-${ii}`;
+          const checked=checkState[key];
+          return `<div class="check-item${checked?' done':''}" id="ci${ci}-${ii}">
+            <div class="check-box${checked?' checked':''}" onclick="toggleCheck(${ci},${ii})" id="cb${ci}-${ii}"></div>
+            <span class="check-label">${glossLink(item)}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+  updateProgress();
+}
+function toggleCat(ci){
+  const items=document.getElementById(`catItems${ci}`);
+  items.style.display=items.style.display==='none'?'block':'none';
+}
+function toggleCheck(ci,ii){
+  const key=`${ci}-${ii}`;
+  checkState[key]=!checkState[key];
+  localStorage.setItem('checklist',JSON.stringify(checkState));
+  const box=document.getElementById(`cb${ci}-${ii}`);
+  const item=document.getElementById(`ci${ci}-${ii}`);
+  box.classList.toggle('checked',checkState[key]);
+  item.classList.toggle('done',checkState[key]);
+  updateProgress();
+}
+function updateProgress(){
+  const total=checklistData.reduce((a,c)=>a+c.items.length,0);
+  const done=Object.values(checkState).filter(Boolean).length;
+  document.getElementById('progressFill').style.width=`${(done/total)*100}%`;
+  document.getElementById('progressText').textContent=`${done} / ${total} tasks completed`;
+  checklistData.forEach((cat,ci)=>{
+    const catDone=cat.items.filter((_,ii)=>checkState[`${ci}-${ii}`]).length;
+    document.getElementById(`catCount${ci}`).textContent=`${catDone}/${cat.items.length}`;
+  });
+}
+
+// ══════════════════════════════════════
+// TESTIMONIALS
+// ══════════════════════════════════════
+// ══════════════════════════════════════
+// REVIEW / TESTIMONIAL SYSTEM
+// ══════════════════════════════════════
+let starRating = 0;
+let currentFilter = 'all';
+
+function setStar(v) {
+  starRating = v;
+  document.querySelectorAll('.star').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.v) <= v);
+  });
+}
+
+function loadUserReviews() {
+  try {
+    return JSON.parse(localStorage.getItem('ifReviews') || '[]');
+  } catch(e) { return []; }
+}
+
+function saveUserReviews(reviews) {
+  localStorage.setItem('ifReviews', JSON.stringify(reviews));
+}
+
+function submitReview() {
+  const name = document.getElementById('rvName').value.trim();
+  const role = document.getElementById('rvRole').value.trim();
+  const field = document.getElementById('rvField').value;
+  const text  = document.getElementById('rvText').value.trim();
+  const err   = document.getElementById('rvError');
+
+  if (!name) { showError('Please enter your name.'); return; }
+  if (text.length < 20) { showError('Please write at least 20 characters.'); return; }
+  err.style.display = 'none';
+
+  const review = {
+    name,
+    role: role || 'Student',
+    school: field || '🔬 Engineering',
+    text,
+    stars: starRating || 0,
+    initial: name.charAt(0).toUpperCase(),
+    color: ['#1a3a6b','#2d6a4f','#c1392b','#c9a84c','#6b4c9e'][name.charCodeAt(0) % 5],
+    date: new Date().toLocaleDateString('en-GB', {month:'short', year:'numeric'}),
+  };
+
+  const reviews = loadUserReviews();
+  reviews.unshift(review);
+  saveUserReviews(reviews);
+
+  document.getElementById('rvName').value = '';
+  document.getElementById('rvRole').value = '';
+  document.getElementById('rvField').value = '';
+  document.getElementById('rvText').value = '';
+  document.getElementById('rvCharCount').textContent = '(0/400)';
+  starRating = 0;
+  setStar(0);
+
+  buildTestimonials();
+  showToast('✓ Your review has been posted — thank you!');
+  setTimeout(() => document.getElementById('testiGrid').scrollIntoView({behavior:'smooth', block:'start'}), 300);
+}
+
+function showError(msg) {
+  const err = document.getElementById('rvError');
+  err.textContent = msg;
+  err.style.display = 'block';
+}
+
+function filterReviews(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.testi-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildTestimonials();
+}
+
+function renderCard(t) {
+  const stars = t.stars > 0 ? '★'.repeat(t.stars) + '☆'.repeat(5 - t.stars) : '';
+  return `<div class="testi-card fade-in-up">
+    <div class="testi-quote">"</div>
+    <p class="testi-text">${t.text}</p>
+    ${stars ? `<div class="testi-stars">${stars}</div>` : ''}
+    <div class="testi-author">
+      <div class="testi-avatar" style="background:${t.color}">${t.initial}</div>
+      <div>
+        <div class="testi-name">${t.name}</div>
+        <div class="testi-role">${t.role}${t.date ? ' · '+t.date : ''}</div>
+        <span class="testi-school-tag">${t.school}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildTestimonials() {
+  const all = loadUserReviews();
+
+  const filtered = currentFilter === 'all' ? all
+    : all.filter(t => t.school === currentFilter);
+
+  const countEl = document.getElementById('rvCount');
+  if (countEl) {
+    countEl.textContent = all.length > 0
+      ? `${filtered.length} review${filtered.length !== 1 ? 's' : ''}`
+      : '';
+  }
+
+  if (filtered.length === 0) {
+    document.getElementById('testiGrid').innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">✍️</div>
+        <p style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--navy);font-weight:700;margin-bottom:.5rem;">No reviews yet</p>
+        <p style="color:var(--gray);font-size:.9rem;">Be the first to share your experience with French engineering!</p>
+      </div>`;
+  } else {
+    document.getElementById('testiGrid').innerHTML = filtered.map(renderCard).join('');
+  }
+  initObserver();
+}
+
+// ══════════════════════════════════════
+// GLOSSARY
+// ══════════════════════════════════════
+function buildGlossary(){
+  renderGlossary(glossary);
+}
+function renderGlossary(items){
+  document.getElementById('glossItems').innerHTML=items.map((g,i)=>`
+    <div class="gloss-item" id="gi${i}">
+      <div class="gloss-term" onclick="toggleGloss(${i})">
+        <div><div class="gloss-word">${g.term}</div><div class="gloss-en">${g.en}</div></div>
+        <span class="gloss-chevron">▼</span>
+      </div>
+      <div class="gloss-def">${g.def}</div>
+    </div>`).join('');
+}
+function toggleGloss(i){document.getElementById(`gi${i}`).classList.toggle('open');}
+function filterGlossary(){
+  const q=document.getElementById('glossSearch').value.toLowerCase();
+  const filtered=glossary.filter(g=>g.term.toLowerCase().includes(q)||g.en.toLowerCase().includes(q)||g.def.toLowerCase().includes(q));
+  renderGlossary(filtered);
+}
+
+// ══════════════════════════════════════
+// FAQ
+// ══════════════════════════════════════
+function buildFAQ(){
+  document.getElementById('faqItems').innerHTML=faqs.map((f,i)=>`
+    <div class="faq-item" id="faq${i}">
+      <div class="faq-q" onclick="toggleFAQ(${i})"><span>${f.q}</span><span class="faq-chevron">▼</span></div>
+      <div class="faq-a">${glossLink(f.a)}</div>
+    </div>`).join('');
+}
+function toggleFAQ(i){document.getElementById(`faq${i}`).classList.toggle('open');}
+
+// ══════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ══════════════════════════════════════
+// SCROLL ANIMATIONS
+// ══════════════════════════════════════
+function initObserver(){
+  const els=document.querySelectorAll('.fade-in-up');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:0.1});
+  els.forEach(el=>obs.observe(el));
+}
+
+// ══════════════════════════════════════
+// SCROLL PROGRESS + ACTIVE NAV SECTION
+// ══════════════════════════════════════
+const sections = ['about','appstats','quiz','comparator','salary','calendar-section','checklist','testimonials','glossary','faq','reviews'];
+function updateScrollUI(){
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('scrollProgress').style.width = (scrolled/total*100)+'%';
+
+  // Active nav link
+  let current = '';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if(el && el.getBoundingClientRect().top <= 100) current = id;
+  });
+  document.querySelectorAll('.nav-links a[data-section]').forEach(a => {
+    a.classList.toggle('active', a.dataset.section === current);
+  });
+}
+window.addEventListener('scroll', updateScrollUI, {passive:true});
+updateScrollUI();
+
+// DARK MODE
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  const isDark=document.body.classList.contains('dark');
+  document.getElementById('darkLabel').textContent=isDark?'Light':'Dark';
+  localStorage.setItem('darkMode',isDark);
+}
+if(localStorage.getItem('darkMode')==='true'){
+  document.body.classList.add('dark');
+  document.getElementById('darkLabel').textContent='Light';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  showBacSelector();
+  buildComparator();
+  updateSalary();
+  buildCalendar();
+  buildChecklist();
+  buildTestimonials();
+  buildGlossary();
+  buildFAQ();
+  initObserver();
+  // Apply glossary links to static about text
+  const ab = document.getElementById('aboutBody');
+  if (ab) ab.innerHTML = glossLink(ab.innerHTML);
+});
+</script>
+</body>
+</html>

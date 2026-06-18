@@ -797,20 +797,6 @@ footer{background:var(--ink);padding:3rem 2rem;text-align:center;}
 
     <div id="rvCount" style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--gray);letter-spacing:.12em;margin-bottom:1.5rem;"></div>
     <div class="testi-grid" id="testiGrid"></div>
-
-    <!-- COMMENTS (utterances / GitHub Issues) -->
-    <div class="fade-in-up" style="margin-top:3.5rem;">
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;">💬 Comments</h3>
-      <p style="font-size:.85rem;color:var(--gray);margin-bottom:1.5rem;">Powered by GitHub — sign in with your GitHub account to leave a comment.</p>
-      <div id="utterances-comments"></div>
-      <script src="https://utteranc.es/client.js"
-        repo="yass7887/ingenieur-France-project"
-        issue-term="pathname"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-      </script>
-    </div>
   </div>
 </section>
 
@@ -2056,10 +2042,77 @@ function updateProgress(){
 // TESTIMONIALS
 // ══════════════════════════════════════
 // ══════════════════════════════════════
-// REVIEW / TESTIMONIAL SYSTEM
+// REVIEW / TESTIMONIAL SYSTEM — Cloud-synced via JSONBin.io
 // ══════════════════════════════════════
+// ✅ CONFIGURED — using a scoped Access Key (read+update only on this bin),
+// not the account Master Key, so it's safe to expose in this public file.
+// Reviews are shared across every visitor & device, and survive GitHub
+// Pages redeployments.
+const JSONBIN_BIN_ID     = "6a33e5a0f5f4af5e29087b06";
+const JSONBIN_ACCESS_KEY = "$2a$10$sapW99z7.hpxNhhtLeSKTOq5N4hmWhjwcMSo57kZYErl0VrcvOGjm";
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+const CLOUD_REVIEWS_ENABLED = JSONBIN_BIN_ID !== "REPLACE_WITH_YOUR_BIN_ID";
+
 let starRating = 0;
 let currentFilter = 'all';
+let cachedReviews = [];   // in-memory cache, refreshed from cloud or localStorage
+let reviewsLoading = false;
+
+// ---- LOCAL FALLBACK (used if cloud isn't configured, or a request fails) ----
+function loadLocalReviews() {
+  try { return JSON.parse(localStorage.getItem('ifReviews') || '[]'); }
+  catch(e) { return []; }
+}
+function saveLocalReviews(reviews) {
+  localStorage.setItem('ifReviews', JSON.stringify(reviews));
+}
+
+// ---- CLOUD STORAGE (shared across all visitors & devices) ----
+async function fetchCloudReviews() {
+  const res = await fetch(`${JSONBIN_URL}/latest`, {
+    headers: { 'X-Access-Key': JSONBIN_ACCESS_KEY }
+  });
+  if (!res.ok) throw new Error('JSONBin read failed: ' + res.status);
+  const data = await res.json();
+  return (data.record && Array.isArray(data.record.reviews)) ? data.record.reviews : [];
+}
+async function pushCloudReviews(reviews) {
+  const res = await fetch(JSONBIN_URL, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Access-Key': JSONBIN_ACCESS_KEY },
+    body: JSON.stringify({ reviews })
+  });
+  if (!res.ok) throw new Error('JSONBin write failed: ' + res.status);
+}
+
+// ---- UNIFIED LOAD: tries cloud first, falls back to local ----
+async function loadUserReviews() {
+  if (!CLOUD_REVIEWS_ENABLED) {
+    cachedReviews = loadLocalReviews();
+    return cachedReviews;
+  }
+  try {
+    cachedReviews = await fetchCloudReviews();
+    saveLocalReviews(cachedReviews); // keep a local backup copy too
+    return cachedReviews;
+  } catch (e) {
+    console.warn('Cloud reviews unavailable, falling back to local copy:', e);
+    cachedReviews = loadLocalReviews();
+    return cachedReviews;
+  }
+}
+
+// ---- UNIFIED SAVE: writes to cloud (if configured) AND local backup ----
+async function saveUserReviews(reviews) {
+  saveLocalReviews(reviews); // always keep a local backup
+  if (!CLOUD_REVIEWS_ENABLED) return;
+  try {
+    await pushCloudReviews(reviews);
+  } catch (e) {
+    console.warn('Could not sync review to the cloud — it is saved locally on this device only:', e);
+    showToast('⚠ Review saved on this device, but cloud sync failed.');
+  }
+}
 
 function setStar(v) {
   starRating = v;
@@ -2068,26 +2121,18 @@ function setStar(v) {
   });
 }
 
-function loadUserReviews() {
-  try {
-    return JSON.parse(localStorage.getItem('ifReviews') || '[]');
-  } catch(e) { return []; }
-}
-
-function saveUserReviews(reviews) {
-  localStorage.setItem('ifReviews', JSON.stringify(reviews));
-}
-
-function submitReview() {
+async function submitReview() {
   const name = document.getElementById('rvName').value.trim();
   const role = document.getElementById('rvRole').value.trim();
   const field = document.getElementById('rvField').value;
   const text  = document.getElementById('rvText').value.trim();
   const err   = document.getElementById('rvError');
+  const btn   = document.querySelector('.review-submit-btn');
 
   if (!name) { showError('Please enter your name.'); return; }
   if (text.length < 20) { showError('Please write at least 20 characters.'); return; }
   err.style.display = 'none';
+  if (btn) { btn.disabled = true; btn.textContent = 'Posting…'; }
 
   const review = {
     name,
@@ -2100,9 +2145,11 @@ function submitReview() {
     date: new Date().toLocaleDateString('en-GB', {month:'short', year:'numeric'}),
   };
 
-  const reviews = loadUserReviews();
+  // Re-fetch latest reviews first so we don't overwrite someone else's new review
+  const reviews = CLOUD_REVIEWS_ENABLED ? await loadUserReviews() : loadLocalReviews();
   reviews.unshift(review);
-  saveUserReviews(reviews);
+  await saveUserReviews(reviews);
+  cachedReviews = reviews;
 
   document.getElementById('rvName').value = '';
   document.getElementById('rvRole').value = '';
@@ -2111,6 +2158,7 @@ function submitReview() {
   document.getElementById('rvCharCount').textContent = '(0/400)';
   starRating = 0;
   setStar(0);
+  if (btn) { btn.disabled = false; btn.textContent = 'Post Review →'; }
 
   buildTestimonials();
   showToast('✓ Your review has been posted — thank you!');
@@ -2127,7 +2175,7 @@ function filterReviews(filter, btn) {
   currentFilter = filter;
   document.querySelectorAll('.testi-filter').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  buildTestimonials();
+  renderTestimonials();
 }
 
 function renderCard(t) {
@@ -2147,11 +2195,10 @@ function renderCard(t) {
   </div>`;
 }
 
-function buildTestimonials() {
-  const all = loadUserReviews();
-
-  const filtered = currentFilter === 'all' ? all
-    : all.filter(t => t.school === currentFilter);
+// Renders from the in-memory cache (no network call) — used by filters
+function renderTestimonials() {
+  const all = cachedReviews;
+  const filtered = currentFilter === 'all' ? all : all.filter(t => t.school === currentFilter);
 
   const countEl = document.getElementById('rvCount');
   if (countEl) {
@@ -2171,6 +2218,18 @@ function buildTestimonials() {
     document.getElementById('testiGrid').innerHTML = filtered.map(renderCard).join('');
   }
   initObserver();
+}
+
+// Full refresh: fetches from cloud (or local fallback), then renders
+async function buildTestimonials() {
+  const grid = document.getElementById('testiGrid');
+  if (grid && !reviewsLoading) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--gray);font-family:'DM Mono',monospace;font-size:.78rem;">Loading reviews…</div>`;
+  }
+  reviewsLoading = true;
+  await loadUserReviews();
+  reviewsLoading = false;
+  renderTestimonials();
 }
 
 // ══════════════════════════════════════
